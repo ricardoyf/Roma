@@ -5,28 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Roma 2026</title>
   <style>
-    :root{--bg:#f5f1ea;--card:#fffaf4;--text:#1f2937;--muted:#6b7280;--accent:#8b1e1e;--accent2:#d97706;--line:#eadfce;--shadow:0 10px 30px rgba(0,0,0,.08)}
-    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
-    .wrap{max-width:760px;margin:0 auto;padding:16px 14px 28px}
-    .hero{background:linear-gradient(140deg,#7f1d1d,#b91c1c 55%,#d97706);color:#fff;border-radius:22px;padding:22px 18px;box-shadow:var(--shadow);margin-bottom:16px}
-    .hero h1{margin:0 0 8px;font-size:30px;line-height:1.05}.hero p{margin:0;font-size:14px;opacity:.95}
-    .toc,.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
-    .toc{padding:14px 16px;margin-bottom:16px}.toc a{display:block;padding:8px 0;color:var(--accent);text-decoration:none;font-weight:700}
-    .card{padding:16px;margin-bottom:14px}.day{font-size:22px;font-weight:800;color:var(--accent);margin-bottom:10px}
+    :root{
+      --bg:#f6f1e8;--card:#fffaf3;--text:#1f2937;--muted:#6b7280;--accent:#8b1e1e;--accent2:#c2410c;--line:#eadfce;
+      --shadow:0 12px 32px rgba(0,0,0,.08);--soft:#fff3e8;--chip:#f3e8d8;--blue:#0b57d0;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Arial,sans-serif;background:linear-gradient(180deg,#f6f1e8 0%,#f9f6f0 100%);color:var(--text)}
+    .wrap{max-width:860px;margin:0 auto;padding:16px 14px 34px}
+    .hero{background:linear-gradient(135deg,#7f1d1d,#b91c1c 52%,#d97706);color:#fff;border-radius:24px;padding:22px 18px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;overflow:hidden}
+    .hero:after{content:'';position:absolute;right:-40px;top:-30px;width:160px;height:160px;background:rgba(255,255,255,.08);border-radius:50%}
+    .hero h1{margin:0 0 8px;font-size:32px;line-height:1.02}
+    .hero p{margin:0;font-size:14px;opacity:.95;max-width:620px}
+    .hero .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .pill{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700}
+    .toc,.card,.visit-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+    .toc{padding:14px 16px;margin-bottom:16px}
+    .toc-title{font-weight:800;color:var(--accent);margin-bottom:8px}
+    .toc a{display:block;padding:8px 0;color:var(--accent);text-decoration:none;font-weight:700}
+    .card{padding:16px;margin-bottom:14px}
+    .day{font-size:23px;font-weight:900;color:var(--accent);margin-bottom:8px}
     .sub{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin:14px 0 8px}
     ul{margin:8px 0 0 18px;padding:0} li{margin:6px 0;line-height:1.45}
-    .pill{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;margin:4px 6px 0 0}
-    .links a{color:#0b57d0;text-decoration:none;word-break:break-word}
-    .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .chip{background:var(--chip);border:1px solid #ead9bf;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;color:#5b4533}
+    .links a,.inline-link{color:var(--blue);text-decoration:none;word-break:break-word}
+    .visits-grid{display:grid;gap:12px}
+    .visit-card{padding:14px;background:#fffdf9}
+    .visit-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:8px}
+    .visit-title{font-size:18px;font-weight:900;color:#7f1d1d}
+    .visit-kicker{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+    .visit-desc{font-size:14px;line-height:1.48;color:#24303b}
+    details{margin-top:10px;border-top:1px dashed #e8d7c2;padding-top:10px}
+    details summary{cursor:pointer;list-style:none;font-weight:800;color:#7a3f12;display:flex;align-items:center;gap:8px}
+    details summary::-webkit-details-marker{display:none}
+    details[open] summary{margin-bottom:8px}
+    .story{background:var(--soft);border:1px solid #f2dbc7;border-radius:14px;padding:12px 13px;font-size:14px;line-height:1.5;color:#453127}
+    .story strong{color:#7f1d1d}
+    .visit-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .visit-links a{background:#f8fafc;border:1px solid #e3e8ef;border-radius:999px;padding:8px 10px;font-size:12px;font-weight:700;color:#0b57d0;text-decoration:none}
+    .route{background:#fcf7f0;border:1px solid #efdfcb;border-radius:14px;padding:12px 13px;font-size:14px;line-height:1.5}
+    .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:10px}
+    @media (min-width:760px){.visits-grid{grid-template-columns:1fr 1fr}.hero h1{font-size:38px}}
   </style>
 </head>
 <body>
   <main class="wrap">
     <header class="hero">
       <h1>Roma 2026</h1>
-      <p>Itinerario propuesto en formato móvil, claro y bonito, para consultar desde cualquier dispositivo.</p>
+      <p>Itinerario familiar trabajado para disfrutar Roma con ritmo inteligente: cultura fuerte, pausas bien puestas, buena comida y pequeñas historias para enganchar también a chicos curiosos.</p>
+      <div class="meta">
+        <span class="pill">20–24 junio 2026</span>
+        <span class="pill">3 adultos + 2 chicos</span>
+        <span class="pill">Formato móvil premium</span>
+      </div>
     </header>
+
     <section class="toc">
+      <div class="toc-title">Índice rápido</div>
       <a href="#traslados">Traslados Fiumicino ⇄ Hotel</a>
       <a href="#dia1">Día 1 · Llegada y Roma barroca</a>
       <a href="#dia2">Día 2 · Antigua Roma</a>
@@ -37,101 +73,158 @@
 
     <section id="traslados" class="card">
       <div class="day">Traslados Fiumicino ⇄ Hotel</div>
-      <div class="sub">Datos base</div>
+      <div class="route"><strong>Base:</strong> llegada sábado 20 a las 13:00, salida miércoles 24 a las 14:45. Hotel: <strong>Rome Life Hotel</strong>, zona Via Nazionale / Monti.</div>
+      <div class="sub">Opción recomendada</div>
       <ul>
-        <li>Llegada: sábado 20 junio, 13:00 (FCO)</li>
-        <li>Salida: miércoles 24 junio, 14:45 (FCO)</li>
-        <li>Hotel: Rome Life Hotel (Via Nazionale / Monti)</li>
+        <li><strong>Leonardo Express</strong>: directo a Termini, rápido y sencillo para empezar Roma sin perder energía.</li>
+        <li><strong>Taxi oficial</strong>: cómodo si vais cargados o queréis cero fricción con maletas.</li>
       </ul>
-      <div class="sub">Opciones</div>
-      <ul>
-        <li><strong>Leonardo Express</strong>: directo FCO → Termini, ~32 min, opción recomendada.</li>
-        <li><strong>Taxi oficial</strong>: puerta a puerta, tarifa fija orientativa al centro 55€.</li>
-        <li><strong>Bus</strong>: opción económica, 55 min aprox. hasta Termini.</li>
-      </ul>
-      <div class="links sub">Webs útiles</div>
-      <ul class="links">
-        <li><a href="https://www.trenitalia.com/" target="_blank">Trenitalia</a></li>
-        <li><a href="https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF44832" target="_blank">Taxi oficial Roma</a></li>
-        <li><a href="https://www.terravision.eu/" target="_blank">Terravision</a></li>
-        <li><a href="https://www.sitbusshuttle.com/" target="_blank">SIT Bus Shuttle</a></li>
-      </ul>
+      <div class="visit-links">
+        <a href="https://www.trenitalia.com/" target="_blank">Trenitalia</a>
+        <a href="https://www.comune.roma.it/web/it/scheda-servizi.page?contentId=INF44832" target="_blank">Taxi oficial Roma</a>
+        <a href="https://www.terravision.eu/" target="_blank">Terravision</a>
+      </div>
     </section>
 
     <section id="dia1" class="card">
       <div class="day">Día 1 · Sábado 20 junio</div>
-      <span class="pill">Llegada FCO</span><span class="pill">Roma barroca</span><span class="pill">Paseo suave</span>
-      <div class="sub">Ruta</div>
-      <ul><li>Rome Life Hotel → Fontana di Trevi → Panteón → Piazza Navona</li></ul>
+      <div class="route"><strong>Ruta:</strong> Rome Life Hotel → Fontana di Trevi → Panteón → Piazza Navona. Tarde ideal para entrar en Roma sin forzar.</div>
+      <div class="chips"><span class="chip">Primer contacto</span><span class="chip">Roma barroca</span><span class="chip">Paseo fotogénico</span></div>
       <div class="sub">Horario recomendado</div>
-      <ul>
-        <li>16:00 salida hotel</li><li>16:30 Trevi</li><li>17:30 Panteón</li><li>18:30 Piazza Navona</li><li>20:30 cena</li>
-      </ul>
-      <div class="sub">Comida / merienda</div>
-      <ul><li>All’Antico Vinaio</li><li>Alice Pizza</li><li>Miscellanea</li><li>Sant’Eustachio Il Caffè</li><li>Giolitti</li></ul>
-      <div class="sub">Cena</div>
-      <ul><li>Emma Pizzeria</li><li>Osteria da Fortunata</li><li>Mimì e Cocò</li></ul>
-      <div class="sub links">Entrada</div>
-      <ul class="links"><li><a href="https://portale.museiitaliani.it/" target="_blank">Panteón</a></li></ul>
+      <ul><li>16:00 salida hotel</li><li>16:30 Trevi</li><li>17:30 Panteón</li><li>18:30 Piazza Navona</li><li>20:30 cena</li></ul>
+      <div class="sub">Paradas con historia</div>
+      <div class="visits-grid">
+        <article class="visit-card">
+          <div class="visit-head"><div><div class="visit-title">Fontana di Trevi</div><div class="visit-kicker">Icono barroco</div></div></div>
+          <div class="visit-desc">La fuente más famosa de Roma no se mira: se <em>vive</em>. Aquí Roma se vuelve cine, ruido de agua y deseo ritual.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>La moneda no es postureo:</strong> la tradición dice que si lanzas una volverás a Roma. La gracia histórica es que la fuente era la gran escenografía final de un acueducto antiguo: el agua no solo decoraba, también demostraba poder e ingeniería.</div></details>
+          <div class="visit-links"><a href="https://es.wikipedia.org/wiki/Fontana_di_Trevi" target="_blank">Ver historia</a><a href="https://maps.google.com/?q=Fontana+di+Trevi" target="_blank">Abrir mapa</a></div>
+        </article>
+        <article class="visit-card">
+          <div class="visit-title">Panteón</div><div class="visit-kicker">Ingeniería romana pura</div>
+          <div class="visit-desc">Uno de los edificios mejor conservados de la Antigua Roma. La cúpula sigue sorprendiendo hoy casi dos mil años después.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>El óculo del techo no es un fallo:</strong> ese agujero central hace entrar la luz como si fuera un foco gigante. Cuando llueve, el agua entra… pero el suelo está hecho para drenarla. Roma pensaba en todo.</div></details>
+          <div class="visit-links"><a href="https://portale.museiitaliani.it/" target="_blank">Entrada oficial</a><a href="https://maps.google.com/?q=Panteon+Roma" target="_blank">Mapa</a></div>
+        </article>
+        <article class="visit-card">
+          <div class="visit-title">Piazza Navona</div><div class="visit-kicker">Roma escénica</div>
+          <div class="visit-desc">Es una plaza elegante, viva y teatral. Debajo de ella se esconde la pista de un antiguo estadio romano.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>No nació como plaza:</strong> su forma alargada viene del estadio de Domiciano. Donde hoy hay terrazas y artistas, antes había competiciones atléticas. Es un ejemplo perfecto de cómo Roma construye una ciudad encima de otra.</div></details>
+          <div class="visit-links"><a href="https://maps.google.com/?q=Piazza+Navona" target="_blank">Mapa</a></div>
+        </article>
+      </div>
+      <div class="sub">Comer bien</div>
+      <ul><li>All’Antico Vinaio</li><li>Alice Pizza</li><li>Miscellanea</li><li>Sant’Eustachio Il Caffè</li><li>Giolitti</li><li>Emma Pizzeria</li><li>Osteria da Fortunata</li><li>Mimì e Cocò</li></ul>
     </section>
 
     <section id="dia2" class="card">
       <div class="day">Día 2 · Domingo 21 junio</div>
-      <span class="pill">Coliseo</span><span class="pill">Foro</span><span class="pill">Monti</span>
+      <div class="route"><strong>Bloque imperial:</strong> Coliseo → Foro Romano → Palatino. Después, Monti y una tarde ampliable sin agobio.</div>
+      <div class="chips"><span class="chip">Imperio romano</span><span class="chip">Monti</span><span class="chip">Día potente</span></div>
       <div class="sub">Mañana</div>
       <ul><li>09:00 Coliseo</li><li>10:30–12:30 Foro Romano + Palatino</li></ul>
-      <div class="sub links">Entradas oficiales</div>
-      <ul class="links"><li><a href="https://ticketing.colosseo.it/es/" target="_blank">Coliseo / Foro / Palatino</a></li></ul>
-      <div class="sub">Comida</div>
-      <ul><li>Fuorinorma</li><li>Mizio’s Street Food</li><li>La Nuova Piazzetta</li></ul>
-      <div class="sub">Tarde ampliada</div>
-      <ul><li>San Pietro in Vincoli</li><li>Plaza del Quirinale</li><li>Santa Maria Maggiore</li><li>Regoli Pasticceria</li></ul>
-      <div class="sub">Cena</div>
-      <ul><li>L’Asino d’Oro</li><li>Ai Tre Scalini</li><li>Ce Stamo A Pensà</li></ul>
+      <div class="visit-links"><a href="https://ticketing.colosseo.it/es/" target="_blank">Entradas oficiales Coliseo</a></div>
+      <div class="sub">Paradas con historia</div>
+      <div class="visits-grid">
+        <article class="visit-card">
+          <div class="visit-title">Coliseo</div><div class="visit-kicker">El gran espectáculo de Roma</div>
+          <div class="visit-desc">No era solo un estadio: era una máquina de impacto emocional para decenas de miles de personas.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>Era el Netflix de Roma, pero brutal:</strong> aquí había gladiadores, fieras, decorados gigantes y hasta mecanismos bajo el suelo para sacar animales y luchadores de repente. El subsuelo era casi una sala de efectos especiales antigua.</div></details>
+          <div class="visit-links"><a href="https://es.wikipedia.org/wiki/Coliseo" target="_blank">Historia</a><a href="https://maps.google.com/?q=Coliseo+Roma" target="_blank">Mapa</a></div>
+        </article>
+        <article class="visit-card">
+          <div class="visit-title">Foro Romano</div><div class="visit-kicker">Centro del poder</div>
+          <div class="visit-desc">Aquí pasaba casi todo: política, religión, juicios, desfiles y decisiones que cambiaban el mundo romano.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>Piensa en una mezcla de parlamento, plaza mayor y escenario nacional.</strong> Lo increíble no es solo lo que queda en pie, sino imaginar el ruido, las togas, los rumores y la tensión política de una superpotencia.</div></details>
+        </article>
+        <article class="visit-card">
+          <div class="visit-title">Palatino</div><div class="visit-kicker">Colina de emperadores</div>
+          <div class="visit-desc">Lugar legendario del origen de Roma y después barrio premium de emperadores.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>De aquí viene la palabra “palacio”.</strong> Según la tradición, Rómulo fundó Roma en esta colina. Más tarde, los emperadores la llenaron de residencias espectaculares con vistas dominando toda la ciudad.</div></details>
+        </article>
+        <article class="visit-card">
+          <div class="visit-title">San Pietro in Vincoli</div><div class="visit-kicker">Bonus corto y potente</div>
+          <div class="visit-desc">Iglesia tranquila pero con una joya total: el Moisés de Miguel Ángel.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>Miguel Ángel no hacía figuras, hacía presencia.</strong> El Moisés parece a punto de levantarse. Fijarse en la tensión del cuerpo y la mirada es casi como ver una escena congelada de película.</div></details>
+        </article>
+      </div>
+      <div class="sub">Comida y cena</div>
+      <ul><li>Fuorinorma</li><li>Mizio’s Street Food</li><li>La Nuova Piazzetta</li><li>Regoli Pasticceria</li><li>L’Asino d’Oro</li><li>Ai Tre Scalini</li><li>Ce Stamo A Pensà</li></ul>
     </section>
 
     <section id="dia3" class="card">
       <div class="day">Día 3 · Lunes 22 junio</div>
-      <span class="pill">Vaticano</span><span class="pill">San Pedro</span><span class="pill">Trastevere</span>
-      <div class="sub">Mañana</div>
-      <ul><li>08:30 salida hotel</li><li>09:00–12:00 Museos Vaticanos + Capilla Sixtina</li><li>12:00–13:00 Basílica de San Pedro</li></ul>
-      <div class="sub links">Entradas oficiales</div>
-      <ul class="links"><li><a href="https://tickets.museivaticani.va/" target="_blank">Museos Vaticanos / Capilla Sixtina</a></li></ul>
-      <div class="sub">Comida</div>
-      <ul><li>Pizzarium Bonci</li><li>Pastasciutta</li><li>La Zanzara</li></ul>
-      <div class="sub">Tarde</div>
-      <ul><li>Paseo junto al Tíber</li><li>Trastevere</li><li>Helado en Otaleg! o Gelateria del Viale</li></ul>
-      <div class="sub">Cena</div>
-      <ul><li>Tonnarello</li><li>Nannarella</li><li>Seu Pizza Illuminati</li></ul>
+      <div class="route"><strong>Mañana fuerte:</strong> Museos Vaticanos + Capilla Sixtina + San Pedro. <strong>Tarde:</strong> paseo hacia Trastevere para bajar revoluciones con estilo.</div>
+      <div class="chips"><span class="chip">Arte top</span><span class="chip">Vaticano</span><span class="chip">Tarde bonita</span></div>
+      <div class="visit-links"><a href="https://tickets.museivaticani.va/" target="_blank">Entradas oficiales Vaticano</a></div>
+      <div class="visits-grid">
+        <article class="visit-card">
+          <div class="visit-title">Museos Vaticanos</div><div class="visit-kicker">Colección gigantesca</div>
+          <div class="visit-desc">No es “un museo”: es una sucesión de mundos, poder, arte y propaganda de siglos.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>La gracia no es ver TODO, sino saber mirar.</strong> Aquí el mensaje era claro: quien controla belleza, historia y símbolos, también controla prestigio. Es arte, sí, pero también estrategia de poder.</div></details>
+        </article>
+        <article class="visit-card">
+          <div class="visit-title">Capilla Sixtina</div><div class="visit-kicker">Impacto visual real</div>
+          <div class="visit-desc">La sensación al entrar suele ser: “esto no parece de verdad”.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>Miguel Ángel no quería hacer ese trabajo.</strong> Era más escultor que pintor, pero acabó creando uno de los techos más famosos del planeta. Saber eso hace que impresione todavía más.</div></details>
+        </article>
+        <article class="visit-card">
+          <div class="visit-title">Basílica de San Pedro</div><div class="visit-kicker">Escala monumental</div>
+          <div class="visit-desc">Más que una iglesia: una demostración física de grandeza.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>Todo está diseñado para hacerte sentir pequeño.</strong> Columnas, alturas, cúpula, espacio… no es casual. Roma y después el Vaticano dominaban también a través de la arquitectura.</div></details>
+        </article>
+        <article class="visit-card">
+          <div class="visit-title">Trastevere</div><div class="visit-kicker">Roma que se disfruta</div>
+          <div class="visit-desc">Calles vivas, plazas, cena buena y una atmósfera que relaja después del bloque cultural.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>Trastevere no impresiona por un gran monumento, sino por ambiente.</strong> Es la Roma de ritmo más humano: ropa tendida, plazas con vida, callejeo y esa sensación de estar dentro de una película italiana.</div></details>
+        </article>
+      </div>
+      <div class="sub">Comida y cena</div>
+      <ul><li>Pizzarium Bonci</li><li>Pastasciutta</li><li>La Zanzara</li><li>Otaleg!</li><li>Tonnarello</li><li>Nannarella</li><li>Seu Pizza Illuminati</li></ul>
     </section>
 
     <section id="dia4" class="card">
       <div class="day">Día 4 · Martes 23 junio</div>
-      <span class="pill">Borghese</span><span class="pill">Pincio</span><span class="pill">España</span>
-      <div class="sub">Mañana</div>
-      <ul><li>09:00–11:00 Galería Borghese</li><li>11:00–12:30 Villa Borghese</li></ul>
-      <div class="sub links">Entradas oficiales</div>
-      <ul class="links"><li><a href="https://galleriaborghese.beniculturali.it/en/" target="_blank">Galería Borghese</a></li><li><a href="https://www.tosc.it/en/artist/galleria-borghese/" target="_blank">Ticketing Borghese</a></li></ul>
-      <div class="sub">Comida</div>
-      <ul><li>Babette</li><li>Ginger Sapori e Salute</li><li>Grano Frutta e Farina</li></ul>
-      <div class="sub">Tarde</div>
-      <ul><li>Piazza del Popolo</li><li>Pincio</li><li>Plaza de España</li><li>Ciampini</li></ul>
-      <div class="sub">Cena</div>
-      <ul><li>Ristorante Nino</li><li>Life Ristorante</li><li>Piccolo Buco</li></ul>
+      <div class="route"><strong>Día elegante y equilibrado:</strong> arte, parque, mirador y paseo con final bonito por la zona de España.</div>
+      <div class="chips"><span class="chip">Arte</span><span class="chip">Parque</span><span class="chip">Paseo fino</span></div>
+      <div class="visit-links"><a href="https://galleriaborghese.beniculturali.it/en/" target="_blank">Galería Borghese</a><a href="https://www.tosc.it/en/artist/galleria-borghese/" target="_blank">Ticketing</a></div>
+      <div class="visits-grid">
+        <article class="visit-card">
+          <div class="visit-title">Galería Borghese</div><div class="visit-kicker">Arte sin agotarse</div>
+          <div class="visit-desc">Una de las mejores visitas para disfrutar arte grande en un formato más manejable.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>Bernini convierte el mármol en truco visual.</strong> En algunas esculturas parece que la piedra se vuelve piel, tela o movimiento. Es de esas visitas donde conviene fijarse en “cómo demonios hicieron esto”.</div></details>
+        </article>
+        <article class="visit-card">
+          <div class="visit-title">Villa Borghese</div><div class="visit-kicker">Respirar Roma</div>
+          <div class="visit-desc">Después de arte, toca espacio, árboles y paseo sin prisa.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>Roma también se disfruta descansando.</strong> Estos parques aristocráticos eran una forma de exhibir refinamiento: naturaleza diseñada, ocio elegante y control del paisaje.</div></details>
+        </article>
+        <article class="visit-card">
+          <div class="visit-title">Pincio</div><div class="visit-kicker">Mirador top</div>
+          <div class="visit-desc">Un sitio perfecto para entender la amplitud de Roma y hacer fotos con buena luz.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>Mirar una ciudad desde arriba cambia cómo la entiendes.</strong> Desde aquí Roma deja de ser solo calles y pasa a ser capas: cúpulas, avenidas, historia y poder mezclados en el horizonte.</div></details>
+        </article>
+        <article class="visit-card">
+          <div class="visit-title">Plaza de España</div><div class="visit-kicker">Roma elegante</div>
+          <div class="visit-desc">Escalinata, ambiente, tiendas y una escena urbana muy reconocible.</div>
+          <details><summary>💬 Curiosidad para chicos</summary><div class="story"><strong>Es uno de esos lugares donde la ciudad se convierte en decorado.</strong> Más que “ver algo”, aquí se trata de notar cómo Roma mezcla monumento, moda, paseo y vida real en un mismo punto.</div></details>
+        </article>
+      </div>
+      <div class="sub">Comida y cena</div>
+      <ul><li>Babette</li><li>Ginger Sapori e Salute</li><li>Grano Frutta e Farina</li><li>Ciampini</li><li>Ristorante Nino</li><li>Life Ristorante</li><li>Piccolo Buco</li></ul>
     </section>
 
     <section id="dia5" class="card">
       <div class="day">Día 5 · Miércoles 24 junio</div>
-      <span class="pill">Regreso</span><span class="pill">Compras ligeras</span><span class="pill">Sin estrés</span>
-      <div class="sub">Datos base</div>
-      <ul><li>Vuelo 14:45</li><li>Objetivo aeropuerto 12:45</li><li>Salida hotel recomendada 11:30</li></ul>
-      <div class="sub">Mañana</div>
-      <ul><li>Termas de Diocleciano o Santa Maria della Vittoria</li><li>Paseo corto por Via Nazionale / Termini</li><li>Comida ligera o snack</li></ul>
+      <div class="route"><strong>Prioridad absoluta:</strong> salir sin tensión. Este día no va de apurar, va de cerrar bien el viaje.</div>
+      <div class="chips"><span class="chip">Cierre tranquilo</span><span class="chip">Compras ligeras</span><span class="chip">Aeropuerto</span></div>
+      <div class="sub">Plan</div>
+      <ul><li>Vuelo 14:45</li><li>Objetivo aeropuerto 12:45</li><li>Salida hotel recomendada 11:30</li><li>Opciones suaves: Termas de Diocleciano o Santa Maria della Vittoria</li></ul>
       <div class="sub">Checklist</div>
       <ul><li>Pasaportes / ID</li><li>Móviles y cargadores</li><li>Souvenirs y líquidos controlados</li><li>Entradas y facturas guardadas</li></ul>
     </section>
 
-    <div class="footer">Creado desde la carpeta Viajes · Roma 2026</div>
+    <div class="footer">Versión enriquecida: itinerario + microhistorias + enlaces útiles</div>
   </main>
 </body>
 </html>
