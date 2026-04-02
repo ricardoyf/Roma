@@ -7,19 +7,18 @@
   <style>
     :root{--bg:#f6f1e8;--card:#fffaf3;--text:#1f2937;--muted:#6b7280;--accent:#7f1d1d;--accent2:#c2410c;--line:#eadfce;--shadow:0 12px 32px rgba(0,0,0,.08);--soft:#fff3e8;--chip:#f3e8d8;--blue:#0b57d0}
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Arial,sans-serif;background:linear-gradient(180deg,#f6f1e8 0%,#faf7f1 100%);color:var(--text)}
-    .wrap{max-width:900px;margin:0 auto;padding:16px 14px 34px}
+    .wrap{max-width:920px;margin:0 auto;padding:16px 14px 34px}
     .hero{background:linear-gradient(135deg,#7f1d1d,#b91c1c 52%,#d97706);color:#fff;border-radius:24px;padding:24px 18px;box-shadow:var(--shadow);margin-bottom:16px;position:relative;overflow:hidden}
-    .hero:before,.hero:after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,.08)} .hero:before{right:-20px;top:-20px;width:120px;height:120px}.hero:after{right:70px;bottom:-36px;width:100px;height:100px}
-    .hero h1{margin:0 0 8px;font-size:33px;line-height:1.02}.hero p{margin:0;font-size:15px;opacity:.96;max-width:680px;line-height:1.45}
-    .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.pill{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700}
-    .toc,.card,.visit-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)} .toc{padding:14px 16px;margin-bottom:16px}.toc-title{font-weight:900;color:var(--accent);margin-bottom:8px}.toc a{display:block;padding:8px 0;color:var(--accent);text-decoration:none;font-weight:800}
-    .card{padding:16px;margin-bottom:14px}.day{font-size:24px;font-weight:900;color:var(--accent);margin-bottom:8px}.sub{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin:14px 0 8px}
-    ul{margin:8px 0 0 18px;padding:0} li{margin:6px 0;line-height:1.45}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.chip{background:var(--chip);border:1px solid #ead9bf;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;color:#5b4533}
+    .hero h1{margin:0 0 8px;font-size:33px;line-height:1.02}.hero p{margin:0;font-size:15px;opacity:.96;max-width:700px;line-height:1.45}.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.pill{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700}
+    .toc,.day-accordion,.visit-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)} .toc{padding:14px 16px;margin-bottom:16px}.toc-title{font-weight:900;color:var(--accent);margin-bottom:8px}.toc a{display:block;padding:8px 0;color:var(--accent);text-decoration:none;font-weight:800}
+    .day-accordion{margin-bottom:14px;overflow:hidden} .day-summary{cursor:pointer;list-style:none;padding:16px 18px;font-size:22px;font-weight:900;color:var(--accent);display:flex;justify-content:space-between;align-items:center;background:linear-gradient(180deg,#fffaf3,#fff7ee)} .day-summary::-webkit-details-marker{display:none}.day-summary span.small{display:block;font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+    .day-content{padding:0 16px 16px}.sub{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin:14px 0 8px}
     .route{background:#fcf7f0;border:1px solid #efdfcb;border-radius:14px;padding:12px 13px;font-size:14px;line-height:1.55}
+    .distance-box{background:#fff;border:1px solid #eee3d4;border-radius:14px;padding:12px 13px;font-size:14px;line-height:1.55}.distance-box ul{margin:8px 0 0 18px;padding:0}
+    ul{margin:8px 0 0 18px;padding:0} li{margin:6px 0;line-height:1.45}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.chip{background:var(--chip);border:1px solid #ead9bf;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;color:#5b4533}
     .visits-grid{display:grid;gap:12px}.visit-card{padding:14px;background:#fffdf9}.visit-title{font-size:19px;font-weight:900;color:#7f1d1d}.visit-kicker{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}.visit-desc{font-size:14px;line-height:1.52;color:#24303b;margin-top:8px}
-    details{margin-top:10px;border-top:1px dashed #e8d7c2;padding-top:10px} details summary{cursor:pointer;list-style:none;font-weight:900;color:#7a3f12;display:flex;align-items:center;gap:8px} details summary::-webkit-details-marker{display:none} details[open] summary{margin-bottom:8px}
+    details.storybox{margin-top:10px;border-top:1px dashed #e8d7c2;padding-top:10px} details.storybox summary{cursor:pointer;list-style:none;font-weight:900;color:#7a3f12;display:flex;align-items:center;gap:8px} details.storybox summary::-webkit-details-marker{display:none} details.storybox[open] summary{margin-bottom:8px}
     .story{background:var(--soft);border:1px solid #f2dbc7;border-radius:14px;padding:12px 13px;font-size:14px;line-height:1.6;color:#453127}.story strong{color:#7f1d1d}
-    .microfacts{display:grid;gap:8px;margin-top:10px}.fact{background:#fff;border:1px solid #eee3d4;border-radius:12px;padding:10px 11px;font-size:13px;line-height:1.45}.fact strong{color:#7f1d1d}
     .utility-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.utility-links a{background:#f8fafc;border:1px solid #e3e8ef;border-radius:999px;padding:8px 10px;font-size:12px;font-weight:700;color:#0b57d0;text-decoration:none}
     .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:10px}
     @media (min-width:780px){.visits-grid{grid-template-columns:1fr 1fr}.hero h1{font-size:40px}}
@@ -29,139 +28,94 @@
   <main class="wrap">
     <header class="hero">
       <h1>Roma 2026</h1>
-      <p>No solo un itinerario: una guía de viaje viva para disfrutar Roma con cabeza, emoción y un punto de asombro. Pensada para leerse en móvil, abrirse en marcha y descubrir por qué cada lugar importa de verdad.</p>
-      <div class="meta"><span class="pill">20–24 junio 2026</span><span class="pill">Familia</span><span class="pill">Formato móvil</span><span class="pill">Historia + paseo + comida</span></div>
+      <p>Guía móvil del viaje: visual, limpia, pensada para abrir por días, seguir el recorrido y descubrir pequeñas historias memorables de cada sitio sin convertir esto en un bloque eterno.</p>
+      <div class="meta"><span class="pill">20–24 junio 2026</span><span class="pill">Formato acordeón</span><span class="pill">Historias + rutas + distancias</span></div>
     </header>
 
     <section class="toc">
-      <div class="toc-title">Recorrido</div>
-      <a href="#dia1">Día 1 · Llegada y Roma barroca</a>
-      <a href="#dia2">Día 2 · Antigua Roma</a>
-      <a href="#dia3">Día 3 · Vaticano + Trastevere</a>
-      <a href="#dia4">Día 4 · Borghese + Pincio + España</a>
-      <a href="#dia5">Día 5 · Regreso</a>
+      <div class="toc-title">Abrir por días</div>
+      <a href="#d1">Día 1 · Llegada y Roma barroca</a>
+      <a href="#d2">Día 2 · Antigua Roma</a>
+      <a href="#d3">Día 3 · Vaticano + Trastevere</a>
+      <a href="#d4">Día 4 · Borghese + Pincio + España</a>
+      <a href="#d5">Día 5 · Regreso</a>
     </section>
 
-    <section id="dia1" class="card">
-      <div class="day">Día 1 · Llegada y Roma barroca</div>
-      <div class="route"><strong>Idea del día:</strong> entrar poco a poco en Roma, sin querer “tachar monumentos”, sino dejando que la ciudad os gane por atmósfera. Este primer paseo sirve para enamorarse del centro histórico.</div>
-      <div class="chips"><span class="chip">Trevi</span><span class="chip">Panteón</span><span class="chip">Navona</span><span class="chip">Primer impacto</span></div>
-      <div class="visits-grid">
-        <article class="visit-card">
-          <div class="visit-title">Fontana di Trevi</div><div class="visit-kicker">La ciudad como espectáculo</div>
-          <div class="visit-desc">Trevi es una declaración de intenciones: Roma no se conforma con gustarte, quiere impresionarte. El agua cae con fuerza, las figuras parecen estar a punto de moverse y todo está pensado para que te sientas pequeño delante de algo enorme.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>Esto no empezó como una postal.</strong> La fuente marca el final de un acueducto antiguo que llevaba agua a la ciudad. O sea: lo que hoy parece puro espectáculo nació también como una demostración de ingeniería y poder. Los romanos no separaban utilidad y grandeza. Si podían llevar agua, además la convertían en teatro.<br><br><strong>Para mirar bien:</strong> fijaos en el contraste entre piedra, agua y movimiento. Parece una escena congelada en mitad de una tormenta mitológica.</div></details>
-          <div class="microfacts"><div class="fact"><strong>Dato rápido:</strong> lanzar una moneda simboliza volver a Roma.</div><div class="fact"><strong>Qué contar en 10 segundos:</strong> “Esto era el final monumental de un sistema real de agua”.</div></div>
-          <div class="utility-links"><a href="https://maps.google.com/?q=Fontana+di+Trevi" target="_blank">Mapa</a></div>
-        </article>
-        <article class="visit-card">
-          <div class="visit-title">Panteón</div><div class="visit-kicker">El edificio imposible</div>
-          <div class="visit-desc">Si alguien te dijera que esta cúpula tiene casi dos mil años, costaría creerlo. El Panteón no impresiona solo por antiguo, sino porque sigue pareciendo moderno.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>La magia está arriba.</strong> El gran óculo abierto en el techo funciona como un ojo de luz. No tapa la lluvia: la acepta. Y aun así el edificio sigue funcionando. El suelo está ligeramente inclinado y preparado para evacuar el agua.<br><br><strong>Lo bestia:</strong> durante siglos, nadie logró superar esa cúpula de hormigón sin refuerzo moderno. Es una de esas obras que obligan a admitir que Roma iba muy por delante en algunas cosas.</div></details>
-          <div class="microfacts"><div class="fact"><strong>Momento perfecto:</strong> entrar y mirar directamente al techo.</div><div class="fact"><strong>Pregunta buena para chicos:</strong> “¿Cómo haríais hoy esto sin grúas modernas?”</div></div>
-          <div class="utility-links"><a href="https://maps.google.com/?q=Panteon+Roma" target="_blank">Mapa</a></div>
-        </article>
-        <article class="visit-card">
-          <div class="visit-title">Piazza Navona</div><div class="visit-kicker">Una plaza que fue estadio</div>
-          <div class="visit-desc">Es una de las plazas más bonitas de Roma, pero el detalle bueno es que su forma no nació porque sí: viene del estadio de Domiciano.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>Roma vive encima de sí misma.</strong> Donde hoy hay terrazas, músicos y fuentes, hubo gradas y competiciones. Esta plaza es una prueba perfecta de cómo la ciudad recicla su pasado sin borrarlo del todo. No hace falta imaginación infinita para ver aquí una pista antigua convertida en corazón barroco.</div></details>
-          <div class="microfacts"><div class="fact"><strong>Clave visual:</strong> fijaos en la forma alargada.</div><div class="fact"><strong>Idea potente:</strong> una ciudad puede cambiar de función sin perder su memoria.</div></div>
-          <div class="utility-links"><a href="https://maps.google.com/?q=Piazza+Navona" target="_blank">Mapa</a></div>
-        </article>
+    <details id="d1" class="day-accordion" open>
+      <summary class="day-summary"><div>Día 1 · Llegada y Roma barroca<span class="small">Trevi · Panteón · Navona</span></div><div>▾</div></summary>
+      <div class="day-content">
+        <div class="route"><strong>Ruta:</strong> Rome Life Hotel → Fontana di Trevi → Panteón → Piazza Navona. Primer paseo para entrar en Roma con belleza inmediata, sin presión.</div>
+        <div class="chips"><span class="chip">Paseo suave</span><span class="chip">Centro histórico</span><span class="chip">Muy fotogénico</span></div>
+        <div class="sub">Distancias aproximadas</div>
+        <div class="distance-box"><ul><li>Hotel → Trevi: ~1,1 km</li><li>Trevi → Panteón: ~700 m</li><li>Panteón → Navona: ~500 m</li><li>Total caminando: ~2,3–2,7 km</li></ul></div>
+        <div class="sub">Paradas con historia</div>
+        <div class="visits-grid">
+          <article class="visit-card"><div class="visit-title">Fontana di Trevi</div><div class="visit-kicker">El barroco llevado al máximo</div><div class="visit-desc">Trevi es una entrada emocional a Roma: agua, mármol, teatro, ruido y sensación de grandeza instantánea.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>No nació para ser solo bonita.</strong> La fuente marcaba el final monumental de un acueducto antiguo. En Roma, incluso llevar agua podía convertirse en escenografía gloriosa. Es una buena forma de entender la ciudad: la utilidad se mezcla con el espectáculo y nadie pide perdón por exagerar.<br><br><strong>Qué engancha a chicos:</strong> pensar que el agua que hoy ves como decorado era también símbolo de dominio técnico.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Fontana_di_Trevi" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Fontana+di+Trevi" target="_blank">Google Maps</a></div></article>
+          <article class="visit-card"><div class="visit-title">Panteón</div><div class="visit-kicker">Ingeniería que sigue ganando</div><div class="visit-desc">Probablemente el edificio antiguo que más obliga a preguntarse cómo demonios lo hicieron.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>La cúpula es el golpe maestro.</strong> El gran óculo central convierte el cielo en parte del edificio. Cuando entra la luz, parece un foco teatral. Cuando entra la lluvia, el suelo la evacua. Lo espectacular aquí no es solo la antigüedad: es la inteligencia. Y por eso el Panteón impresiona incluso a quien cree que “solo va a ver piedras antiguas”.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Pante%C3%B3n_de_Agripa" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Panteon+Roma" target="_blank">Google Maps</a></div></article>
+          <article class="visit-card"><div class="visit-title">Piazza Navona</div><div class="visit-kicker">Una plaza encima de un estadio</div><div class="visit-desc">Bonita a primera vista, más interesante aún cuando sabes de dónde sale su forma.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>No era una plaza, era una pista.</strong> La forma larga de Navona viene del estadio de Domiciano. Esta idea es muy romana: no destruir del todo el pasado, sino reutilizarlo. Lo que antes fue recinto de competición se convirtió en salón urbano barroco. Roma no borra, transforma.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Piazza_Navona" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Piazza+Navona" target="_blank">Google Maps</a></div></article>
+        </div>
       </div>
-    </section>
+    </details>
 
-    <section id="dia2" class="card">
-      <div class="day">Día 2 · Antigua Roma</div>
-      <div class="route"><strong>Idea del día:</strong> aquí no vais a ver ruinas sin más, sino el centro de gravedad de un imperio. Conviene entrar mentalmente en “modo Roma manda en medio mundo”.</div>
-      <div class="chips"><span class="chip">Coliseo</span><span class="chip">Foro</span><span class="chip">Palatino</span><span class="chip">Imperio</span></div>
-      <div class="visits-grid">
-        <article class="visit-card">
-          <div class="visit-title">Coliseo</div><div class="visit-kicker">El gran show de masas</div>
-          <div class="visit-desc">Aquí Roma enseñaba músculo. No solo entretenía: demostraba organización, dinero, control de multitudes y capacidad para convertir la violencia en espectáculo público.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>El Coliseo era una máquina de emociones.</strong> Miles de personas entrando, rugiendo, apostando, reaccionando al mismo tiempo. Bajo la arena había montacargas, pasadizos y espacios para animales y combatientes. No era un edificio pasivo: era casi una fábrica de impacto.<br><br><strong>La comparación útil:</strong> imagina un estadio, una producción de cine y una ceremonia política metidas en un mismo sitio.</div></details>
-          <div class="microfacts"><div class="fact"><strong>Qué mirar:</strong> el tamaño y el sistema de niveles para el público.</div><div class="fact"><strong>Idea para recordar:</strong> Roma convertía la arquitectura en herramienta de poder.</div></div>
-          <div class="utility-links"><a href="https://maps.google.com/?q=Coliseo+Roma" target="_blank">Mapa</a></div>
-        </article>
-        <article class="visit-card">
-          <div class="visit-title">Foro Romano</div><div class="visit-kicker">Donde pasaba todo</div>
-          <div class="visit-desc">Si el Coliseo era espectáculo, el Foro era cerebro, voz y escenario de Roma.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>Aquí se hablaba, se pactaba, se juzgaba y se desfilaba.</strong> No es un lugar para “ver una piedra y seguir”, sino para imaginar ruido, discursos, peleas políticas y decisiones que afectaban a millones de personas. Si Roma fue una superpotencia, este fue uno de sus centros neurálgicos.</div></details>
-          <div class="microfacts"><div class="fact"><strong>Truco mental:</strong> pensarlo como mezcla de parlamento, plaza mayor y zona ceremonial.</div></div>
-        </article>
-        <article class="visit-card">
-          <div class="visit-title">Palatino</div><div class="visit-kicker">De mito a lujo imperial</div>
-          <div class="visit-desc">Es la colina del origen legendario y, más tarde, la del poder residencial.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>Rómulo, palacios y vistas dominantes.</strong> El Palatino concentra dos ideas fuertes a la vez: el mito fundacional de Roma y la necesidad de los emperadores de vivir por encima, en todos los sentidos. Desde aquí no solo residían: controlaban visual y simbólicamente la ciudad.</div></details>
-          <div class="microfacts"><div class="fact"><strong>Curiosidad:</strong> de aquí viene la palabra “palacio”.</div></div>
-        </article>
+    <details id="d2" class="day-accordion">
+      <summary class="day-summary"><div>Día 2 · Antigua Roma<span class="small">Coliseo · Foro · Palatino</span></div><div>▾</div></summary>
+      <div class="day-content">
+        <div class="route"><strong>Ruta:</strong> hotel / Monti → Coliseo → Foro Romano → Palatino → posibles extras cercanos. Día de “Roma potencia mundial”.</div>
+        <div class="chips"><span class="chip">Ruinas top</span><span class="chip">Muy histórico</span><span class="chip">Día fuerte</span></div>
+        <div class="sub">Distancias aproximadas</div>
+        <div class="distance-box"><ul><li>Hotel → Coliseo: ~1,2 km</li><li>Coliseo → Foro: ~300 m</li><li>Foro → Palatino: recorrido continuo dentro del conjunto</li><li>Total con extras suaves: ~3–4 km</li></ul></div>
+        <div class="sub">Paradas con historia</div>
+        <div class="visits-grid">
+          <article class="visit-card"><div class="visit-title">Coliseo</div><div class="visit-kicker">La máquina del espectáculo</div><div class="visit-desc">No era solo un anfiteatro: era una fábrica de emoción colectiva y propaganda imperial.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>El Coliseo no “albergaba eventos”: los producía.</strong> Bajo la arena había pasillos, elevadores y espacios para preparar entradas sorpresa de animales o luchadores. Imagina miles de personas reaccionando al mismo tiempo en un lugar diseñado para dominar su atención. Roma aquí no solo entretenía, demostraba capacidad técnica, orden y autoridad.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Coliseo" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Coliseo+Roma" target="_blank">Google Maps</a></div></article>
+          <article class="visit-card"><div class="visit-title">Foro Romano</div><div class="visit-kicker">El cerebro visible del imperio</div><div class="visit-desc">El lugar donde política, religión y poder convivían al aire libre.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>Si el Coliseo era el gran show, el Foro era la gran decisión.</strong> Aquí había discursos, juicios, procesiones y negociaciones. Es un sitio perfecto para explicar que Roma no dominó solo por ejército: también por instituciones, símbolos y una forma muy fuerte de organizar lo público.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Foro_Romano" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Foro+Romano" target="_blank">Google Maps</a></div></article>
+          <article class="visit-card"><div class="visit-title">Palatino</div><div class="visit-kicker">Mito y lujo</div><div class="visit-desc">La colina de Rómulo y después la de los emperadores.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>Aquí coinciden la leyenda y el privilegio.</strong> El Palatino sirve para contar dos cosas a la vez: cómo Roma se inventa un origen heroico y cómo después convierte ese lugar en barrio residencial del poder. No es solo geografía: es relato fundacional + control visual de la ciudad.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Monte_Palatino" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Monte+Palatino" target="_blank">Google Maps</a></div></article>
+        </div>
       </div>
-    </section>
+    </details>
 
-    <section id="dia3" class="card">
-      <div class="day">Día 3 · Vaticano + Trastevere</div>
-      <div class="route"><strong>Idea del día:</strong> por la mañana, una concentración enorme de arte y poder simbólico; por la tarde, una Roma más humana, callejera y agradable para bajar el ritmo.</div>
-      <div class="chips"><span class="chip">Museos Vaticanos</span><span class="chip">Capilla Sixtina</span><span class="chip">San Pedro</span><span class="chip">Trastevere</span></div>
-      <div class="visits-grid">
-        <article class="visit-card">
-          <div class="visit-title">Museos Vaticanos</div><div class="visit-kicker">Colección de poder</div>
-          <div class="visit-desc">Aquí no se acumula arte porque sí: se acumula prestigio, legado, autoridad y mensaje.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>El Vaticano no solo guardó belleza: la administró.</strong> Reunir piezas extraordinarias de tantos siglos lanza una idea clara: “nosotros también custodiamos la memoria del mundo”. Por eso recorrer estos museos es ver arte, pero también ver cómo el poder aprende a representarse a sí mismo.</div></details>
-        </article>
-        <article class="visit-card">
-          <div class="visit-title">Capilla Sixtina</div><div class="visit-kicker">Impacto puro</div>
-          <div class="visit-desc">Es uno de esos lugares donde el silencio no es postureo: es reacción.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>Lo fuerte no es solo que Miguel Ángel pintara aquello, sino que casi no quería hacerlo.</strong> Aun así, acabó creando uno de los techos más famosos del planeta. Cuando se sabe eso, la obra deja de ser solo bonita y pasa a ser también un pulso de voluntad, genio y ambición.</div></details>
-        </article>
-        <article class="visit-card">
-          <div class="visit-title">Basílica de San Pedro</div><div class="visit-kicker">Escala que abruma</div>
-          <div class="visit-desc">Todo aquí está pensado para generar una sensación de grandeza total.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>La arquitectura aquí no es solo arquitectura.</strong> Es mensaje. Es “esto es inmenso, sólido y duradero”. Entrar no es únicamente entrar en una iglesia, sino entrar en una idea muy calculada de majestuosidad.</div></details>
-        </article>
-        <article class="visit-card">
-          <div class="visit-title">Trastevere</div><div class="visit-kicker">Roma para pasear</div>
-          <div class="visit-desc">Después de lo monumental, aparece la Roma más vivible.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>Trastevere engancha porque no intenta impresionar como monumento.</strong> Lo hace por ambiente: callejuelas, plazas, luz de tarde, helado, cena buena y la sensación de estar viendo una ciudad de verdad, no solo un museo al aire libre.</div></details>
-        </article>
+    <details id="d3" class="day-accordion">
+      <summary class="day-summary"><div>Día 3 · Vaticano + Trastevere<span class="small">Arte enorme por la mañana, paseo bonito por la tarde</span></div><div>▾</div></summary>
+      <div class="day-content">
+        <div class="route"><strong>Ruta:</strong> hotel → Vaticano → San Pedro → paseo junto al Tíber → Trastevere.</div>
+        <div class="chips"><span class="chip">Arte</span><span class="chip">Poder simbólico</span><span class="chip">Final agradable</span></div>
+        <div class="sub">Distancias aproximadas</div>
+        <div class="distance-box"><ul><li>Hotel → Vaticano: ~3,5 km en taxi/transporte o paseo largo</li><li>Zona Vaticano → Trastevere: ~2 km según ruta</li><li>Total caminable del bloque cultural + tarde: ~4–6 km</li></ul></div>
+        <div class="sub">Paradas con historia</div>
+        <div class="visits-grid">
+          <article class="visit-card"><div class="visit-title">Museos Vaticanos</div><div class="visit-kicker">Arte como legado y mensaje</div><div class="visit-desc">No es una colección neutral: aquí también se narra poder.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>Acumular belleza también es gobernar.</strong> Reunir obras extraordinarias durante siglos hace que el visitante sienta que está entrando en un lugar que custodia algo más que cuadros: custodia prestigio, memoria, continuidad. Es una forma muy fina de autoridad.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Museos_Vaticanos" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Museos+Vaticanos" target="_blank">Google Maps</a></div></article>
+          <article class="visit-card"><div class="visit-title">Capilla Sixtina</div><div class="visit-kicker">El impacto del genio</div><div class="visit-desc">Uno de esos sitios donde la realidad suele superar la expectativa.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>Lo importante no es solo “qué bonita”.</strong> La historia engancha más cuando sabes que Miguel Ángel no estaba encantado con el encargo y aun así dejó una de las obras más conocidas del mundo. Aquí conviene mirar menos “cuánto hay” y más “qué sensación produce estar debajo”.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Capilla_Sixtina" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Capilla+Sixtina" target="_blank">Google Maps</a></div></article>
+          <article class="visit-card"><div class="visit-title">Basílica de San Pedro</div><div class="visit-kicker">Escala para impresionar</div><div class="visit-desc">Espacio monumental diseñado para que se note.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>La arquitectura aquí habla antes que tú.</strong> Grandes columnas, alturas enormes, cúpula inmensa… todo hace que la persona se sienta pequeña dentro de una idea gigantesca. Es casi una lección física de cómo el espacio puede influir en lo que uno siente.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Bas%C3%ADlica_de_San_Pedro" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Bas%C3%ADlica+de+San+Pedro" target="_blank">Google Maps</a></div></article>
+          <article class="visit-card"><div class="visit-title">Trastevere</div><div class="visit-kicker">La Roma que se disfruta andando</div><div class="visit-desc">Buen contraste con la mañana institucional.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>Trastevere no necesita un gran monumento para gustar.</strong> Su fuerza está en el ambiente: esquinas, plazas, fachadas, helados, cena, callejeo. Sirve para que los chicos entiendan que viajar no es solo “ver cosas famosas”, sino notar cómo late un barrio.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Trastevere" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Trastevere+Roma" target="_blank">Google Maps</a></div></article>
+        </div>
       </div>
-    </section>
+    </details>
 
-    <section id="dia4" class="card">
-      <div class="day">Día 4 · Borghese + Pincio + España</div>
-      <div class="route"><strong>Idea del día:</strong> un Roma más refinada, verde y elegante. Menos contundente que el imperio o el Vaticano, pero muy agradable y con mucha clase visual.</div>
-      <div class="chips"><span class="chip">Borghese</span><span class="chip">Parque</span><span class="chip">Mirador</span><span class="chip">Paseo bonito</span></div>
-      <div class="visits-grid">
-        <article class="visit-card">
-          <div class="visit-title">Galería Borghese</div><div class="visit-kicker">Arte que parece moverse</div>
-          <div class="visit-desc">Una visita perfecta para ver grandes obras sin ahogarse en un museo inmenso.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>Bernini hace trampas con el mármol.</strong> O esa es la sensación. Cabello, tela, carne, gesto, giro… muchas esculturas parecen desafiar lo que uno cree posible en piedra. Es una visita ideal para entrenar la mirada, no solo para “cumplir”.</div></details>
-        </article>
-        <article class="visit-card">
-          <div class="visit-title">Villa Borghese</div><div class="visit-kicker">Respirar la ciudad</div>
-          <div class="visit-desc">Un respiro necesario entre arte y calles.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>El lujo también se expresaba con jardines.</strong> Tener espacio, vistas y paseo era una forma de estatus. Aquí Roma no se muestra agresiva ni grandiosa: se muestra civilizada y agradable.</div></details>
-        </article>
-        <article class="visit-card">
-          <div class="visit-title">Pincio</div><div class="visit-kicker">Roma desde arriba</div>
-          <div class="visit-desc">Ideal para que la ciudad se ordene en la cabeza.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>Una ciudad cambia cuando la ves en conjunto.</strong> Desde el Pincio Roma deja de ser una suma de calles y se convierte en paisaje histórico: cúpulas, ejes, plazas y capas superpuestas de siglos.</div></details>
-        </article>
-        <article class="visit-card">
-          <div class="visit-title">Plaza de España</div><div class="visit-kicker">La escena urbana perfecta</div>
-          <div class="visit-desc">No es el lugar más poderoso históricamente, pero sí uno de los más cinematográficos.</div>
-          <details><summary>💬 Historia con gancho</summary><div class="story"><strong>Aquí la ciudad se vuelve escenario.</strong> Gente subiendo, bajando, mirando, comprando, descansando… Es un sitio muy bueno para notar cómo Roma mezcla monumento, elegancia y vida cotidiana sin esfuerzo aparente.</div></details>
-        </article>
+    <details id="d4" class="day-accordion">
+      <summary class="day-summary"><div>Día 4 · Borghese + Pincio + España<span class="small">Arte, parque y paseo elegante</span></div><div>▾</div></summary>
+      <div class="day-content">
+        <div class="route"><strong>Ruta:</strong> Galería Borghese → Villa Borghese → Pincio → Piazza del Popolo → Plaza de España.</div>
+        <div class="chips"><span class="chip">Equilibrado</span><span class="chip">Miradores</span><span class="chip">Muy visual</span></div>
+        <div class="sub">Distancias aproximadas</div>
+        <div class="distance-box"><ul><li>Galería Borghese → Pincio: ~1 km</li><li>Pincio → Piazza del Popolo: ~400 m</li><li>Popolo → Plaza de España: ~1,2 km</li><li>Total del día: ~3–4 km sin rodeos</li></ul></div>
+        <div class="sub">Paradas con historia</div>
+        <div class="visits-grid">
+          <article class="visit-card"><div class="visit-title">Galería Borghese</div><div class="visit-kicker">Mármol con vida</div><div class="visit-desc">Una de las visitas de arte más agradecidas de Roma.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>Bernini aquí parece hacer trampa.</strong> El mármol se comporta como si fuera tela, carne o pelo. Es un sitio perfecto para mostrar que el arte no es solo “bonito”, sino también una demostración casi absurda de habilidad técnica.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Galer%C3%ADa_Borghese" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Galleria+Borghese" target="_blank">Google Maps</a></div></article>
+          <article class="visit-card"><div class="visit-title">Villa Borghese</div><div class="visit-kicker">Respirar Roma</div><div class="visit-desc">Espacio para bajar pulsaciones y disfrutar la ciudad de otra forma.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>En ciudades históricas también hace falta aire.</strong> Este parque ayuda a entender otra cara de Roma: menos monumental, más amable, más hecha para paseo, conversación y descanso.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Villa_Borghese" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Villa+Borghese" target="_blank">Google Maps</a></div></article>
+          <article class="visit-card"><div class="visit-title">Pincio</div><div class="visit-kicker">Roma en perspectiva</div><div class="visit-desc">Mirador para entender la ciudad como conjunto.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>Ver una ciudad desde arriba cambia la historia que te cuenta.</strong> Desde el Pincio Roma deja de ser una lista de sitios y se convierte en una ciudad-mapa, llena de cúpulas, ejes y capas de siglos.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Pincio" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Pincio+Roma" target="_blank">Google Maps</a></div></article>
+          <article class="visit-card"><div class="visit-title">Plaza de España</div><div class="visit-kicker">Ciudad convertida en escena</div><div class="visit-desc">Un sitio para disfrutar el ambiente, no solo para “cumplir visita”.</div><details class="storybox"><summary>💬 Abrir historia</summary><div class="story"><strong>Hay lugares donde lo importante no es un solo monumento, sino la coreografía urbana.</strong> Escalinata, gente, tiendas, pausas, fotos… aquí la gracia está en cómo Roma compone una escena completa.</div></details><div class="utility-links"><a href="https://es.wikipedia.org/wiki/Plaza_de_Espa%C3%B1a_(Roma)" target="_blank">Wikipedia</a><a href="https://maps.google.com/?q=Plaza+de+Espa%C3%B1a+Roma" target="_blank">Google Maps</a></div></article>
+        </div>
       </div>
-    </section>
+    </details>
 
-    <section id="dia5" class="card">
-      <div class="day">Día 5 · Regreso</div>
-      <div class="route"><strong>Idea del día:</strong> no arruinar el final por querer meter una visita más. Roma se disfruta también sabiendo cerrar a tiempo.</div>
-      <div class="chips"><span class="chip">Sin estrés</span><span class="chip">Compras ligeras</span><span class="chip">Cierre limpio</span></div>
-      <ul><li>Objetivo aeropuerto: 12:45</li><li>Salida hotel recomendada: 11:30</li><li>Mañana suave: Termas de Diocleciano o Santa Maria della Vittoria</li><li>Últimos souvenirs por Via Nazionale / Termini</li></ul>
-    </section>
+    <details id="d5" class="day-accordion">
+      <summary class="day-summary"><div>Día 5 · Regreso<span class="small">Cierre tranquilo</span></div><div>▾</div></summary>
+      <div class="day-content">
+        <div class="route"><strong>Objetivo:</strong> no meter tensión al final. Última mañana suave, algo cercano si apetece y salida al aeropuerto sin correr.</div>
+        <div class="distance-box"><ul><li>Salida hotel recomendada: 11:30</li><li>Objetivo aeropuerto: 12:45</li><li>Mañana ideal: paseo corto, compras ligeras y cierre limpio</li></ul></div>
+      </div>
+    </details>
 
-    <div class="footer">Versión mejorada con foco en lectura móvil, narrativa y curiosidad real</div>
+    <div class="footer">Versión acordeón con historias, Wikipedia, Google Maps y distancias orientativas</div>
   </main>
 </body>
 </html>
