@@ -32,7 +32,7 @@
     .block-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin:14px 0 8px}
     .step-strip{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}.step-chip{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:10px 11px;font-size:13px;font-weight:800;line-height:1.45}
     .point-list{display:grid;grid-template-columns:1fr;gap:10px}.point h3{margin:0 0 6px;font-size:18px;color:#7f1d1d}.point .meta-line{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:8px}.point .dist{display:inline-block;background:#f8fafc;border:1px solid #e5e7eb;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800;color:#374151;margin-top:8px}
-    .index-card{padding:16px}.index-intro{margin:0 0 12px;font-size:14px;line-height:1.6;color:#24303b}.index-day{background:#fffaf3;border:1px solid #efdfcb;border-radius:16px;padding:12px 14px;margin-top:10px}.index-day summary{cursor:pointer;font-weight:900;color:#7f1d1d;list-style:none}.index-day summary::-webkit-details-marker{display:none}.index-links{margin:10px 0 0;padding-left:18px}.index-links li{margin:8px 0;color:#24303b;line-height:1.5}.index-links a{color:#0b57d0;text-decoration:none;font-weight:700}
+    .index-card{padding:16px}.index-intro{margin:0 0 12px;font-size:14px;line-height:1.6;color:#24303b}.index-day{background:#fffaf3;border:1px solid #efdfcb;border-radius:16px;padding:12px 14px;margin-top:10px}.index-day summary{cursor:pointer;font-weight:900;color:#7f1d1d;list-style:none}.index-day summary::-webkit-details-marker{display:none}.index-links{margin:10px 0 0;padding-left:18px}.index-links li{margin:8px 0;color:#24303b;line-height:1.5}.index-links a{color:#0b57d0;text-decoration:none;font-weight:700}.collapse-row{display:flex;justify-content:flex-end;margin-top:12px}.collapse-btn{display:inline-flex;align-items:center;justify-content:center;background:#7f1d1d;color:#fff;border:0;border-radius:999px;padding:10px 14px;font-size:12px;font-weight:800;cursor:pointer;box-shadow:var(--shadow)}
     .learn-grid{display:grid;grid-template-columns:1fr;gap:12px}.learn-card{background:#fffaf3;border:1px solid #efdfcb;border-radius:16px;padding:14px}.learn-card h3{margin:0 0 8px;font-size:18px;color:#7f1d1d}.learn-card p{margin:0;font-size:14px;line-height:1.6;color:#24303b}.learn-card ul{margin:10px 0 0;padding-left:18px}.learn-card li{margin:8px 0;line-height:1.55}.era{margin-top:10px;padding-top:10px;border-top:1px solid #efdfcb}
     iframe{width:100%;height:320px;border:0;border-radius:14px;background:#f3f4f6}
     .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:14px}
@@ -356,5 +356,22 @@
 
     <div class="footer">Roma rehecha dando protagonismo real a tus rutas de Google Maps, no como adorno</div>
   </main>
+  <script>
+    document.querySelectorAll('details.index-day').forEach((details) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'collapse-btn';
+      btn.textContent = 'Contraer';
+      btn.addEventListener('click', () => {
+        details.open = false;
+        const summary = details.querySelector('summary');
+        if (summary) summary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      const row = document.createElement('div');
+      row.className = 'collapse-row';
+      row.appendChild(btn);
+      details.appendChild(row);
+    });
+  </script>
 </body>
 </html>
