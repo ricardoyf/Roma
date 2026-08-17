@@ -1,26 +1,389 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f766e"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><title>Unit 1</title>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<title>English Flashcards</title>
 <style>
-:root{--bg:#f4f7f7;--panel:#fff;--ink:#13212a;--muted:#6b7280;--accent:#0f766e;--good:#16803a;--bad:#c73535;--border:#dde5e7}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.app{max-width:720px;margin:auto;padding:16px 15px 26px;min-height:100vh}header{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:12px}h1{margin:0;font-size:1.35rem}.muted{color:var(--muted);font-size:.9rem}.controls{display:grid;grid-template-columns:1fr auto;gap:9px;margin-bottom:12px}select,button{font:inherit;border:1px solid var(--border);border-radius:12px;background:#fff;padding:11px 12px}button{cursor:pointer}.progresswrap{height:8px;background:#e3e8ea;border-radius:999px;overflow:hidden;margin:8px 0 14px}.progress{height:100%;width:0%;background:var(--accent);transition:width .2s}.flashcard{height:390px;perspective:1000px;cursor:pointer;user-select:none}.inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .35s}.flashcard.flipped .inner{transform:rotateY(180deg)}.face{position:absolute;inset:0;backface-visibility:hidden;background:var(--panel);border:1px solid var(--border);border-radius:24px;box-shadow:0 10px 28px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}.back{transform:rotateY(180deg);background:linear-gradient(145deg,#edfdf8,#fff)}.badge{position:absolute;top:20px;left:20px;background:#e7f7f4;color:var(--accent);font-weight:700;font-size:.76rem;padding:6px 9px;border-radius:999px}.lang{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}.word{font-size:clamp(2rem,8vw,3.5rem);font-weight:780;line-height:1.12}.hint{position:absolute;bottom:22px;color:var(--muted);font-size:.88rem}.rating{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.rating button{font-weight:800;font-size:1rem;color:#fff;border:none;padding:13px}#wrong{background:var(--bad)}#right{background:var(--good)}.rating button:disabled{opacity:.35;cursor:not-allowed}.stats{display:flex;justify-content:space-between;gap:8px;margin-top:10px;color:var(--muted);font-size:.88rem;flex-wrap:wrap}.smallbtn{background:#fff}.overlay{display:none;background:#fff;border:1px solid var(--border);border-radius:22px;padding:28px;text-align:center;box-shadow:0 10px 28px rgba(0,0,0,.07)}.overlay.show{display:block}.overlay h2{margin-top:0;font-size:1.65rem}.overlay button{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:750}.mode-switch{width:100%;margin-top:16px;padding:15px 16px;background:#fff;color:var(--accent);border:2px solid var(--accent);border-radius:14px;font-size:1.02rem;font-weight:800;letter-spacing:.01em}.mode-switch:active{transform:scale(.99)}@media(max-height:720px){.flashcard{height:330px}}
-</style></head><body><div class="app"><header><div><h1>Unit 1 · Flashcards</h1><div class="muted" id="directionLabel">Español → Inglés · repaso inteligente</div></div><div class="muted" id="roundLabel"></div></header><div class="controls"><select id="category"></select><button class="smallbtn" id="restart">↻ Reiniciar</button></div><div class="progresswrap"><div class="progress" id="progress"></div></div><div id="study"><div class="flashcard" id="card" tabindex="0"><div class="inner"><div class="face front"><div class="badge" id="catFront"></div><div class="lang" id="frontLang">Español</div><div class="word" id="frontWord"></div><div class="hint">Toca para ver la respuesta</div></div><div class="face back"><div class="badge" id="catBack"></div><div class="lang" id="backLang">English</div><div class="word" id="backWord"></div><div class="hint">Ahora marca ✓ o ✕</div></div></div></div><div class="rating"><button id="wrong" disabled>✕ La tuve mal</button><button id="right" disabled>✓ La sé</button></div><div class="stats"><span id="remaining"></span><span id="mistakes"></span><span id="mastered"></span></div></div><div class="overlay" id="done"><h2>🎉 Ronda terminada</h2><p id="doneText"></p><button id="nextRound">Empezar siguiente ronda</button></div><button id="directionBtn" class="mode-switch">⇄ Cambiar a: INGLÉS → ESPAÑOL</button></div>
+:root{--bg:#f4f7f7;--panel:#fff;--ink:#13212a;--muted:#6b7280;--accent:#0f766e;--good:#16803a;--bad:#c73535;--border:#dde5e7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.app{max-width:720px;margin:auto;padding:16px 15px 26px;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:12px}
+h1{margin:0;font-size:1.35rem}
+.muted{color:var(--muted);font-size:.9rem}
+.controls{display:grid;grid-template-columns:1fr auto;gap:9px;margin-bottom:12px}
+select,button{font:inherit;border:1px solid var(--border);border-radius:12px;background:#fff;padding:11px 12px}
+button{cursor:pointer}
+.progresswrap{height:8px;background:#e3e8ea;border-radius:999px;overflow:hidden;margin:8px 0 14px}
+.progress{height:100%;width:0%;background:var(--accent);transition:width .2s}
+.flashcard{height:390px;perspective:1000px;cursor:pointer;user-select:none}
+.inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .35s}
+.flashcard.flipped .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;background:var(--panel);border:1px solid var(--border);border-radius:24px;box-shadow:0 10px 28px rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px}
+.back{transform:rotateY(180deg);background:linear-gradient(145deg,#edfdf8,#fff)}
+.badge{position:absolute;top:20px;left:20px;background:#e7f7f4;color:var(--accent);font-weight:700;font-size:.76rem;padding:6px 9px;border-radius:999px}
+.lang{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.word{font-size:clamp(2rem,8vw,3.5rem);font-weight:780;line-height:1.12}
+.hint{position:absolute;bottom:22px;color:var(--muted);font-size:.88rem}
+.rating{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.rating button{font-weight:800;font-size:1rem;color:#fff;border:none;padding:13px}
+#wrong{background:var(--bad)} #right{background:var(--good)}
+.rating button:disabled{opacity:.35;cursor:not-allowed}
+.stats{display:flex;justify-content:space-between;gap:8px;margin-top:10px;color:var(--muted);font-size:.88rem;flex-wrap:wrap}
+.smallbtn{background:#fff}
+.overlay{display:none;background:#fff;border:1px solid var(--border);border-radius:22px;padding:28px;text-align:center;box-shadow:0 10px 28px rgba(0,0,0,.07)}
+.overlay.show{display:block}
+.overlay h2{margin-top:0;font-size:1.65rem}
+.overlay button{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:750}
+.mode-switch{width:100%;margin-top:16px;padding:15px 16px;background:#fff;color:var(--accent);border:2px solid var(--accent);border-radius:14px;font-size:1.02rem;font-weight:800;letter-spacing:.01em}
+.mode-switch:active{transform:scale(.99)}
+.unit-switch{margin-top:10px}
+.unit-modal{position:fixed;inset:0;z-index:50;background:rgba(19,33,42,.42);display:none;align-items:center;justify-content:center;padding:22px}
+.unit-modal.show{display:flex}
+.unit-panel{width:min(460px,100%);background:#fff;border-radius:22px;padding:22px;box-shadow:0 18px 50px rgba(0,0,0,.22)}
+.unit-panel h2{margin:0 0 6px;text-align:center;font-size:1.45rem}
+.unit-panel p{margin:0 0 18px;text-align:center;color:var(--muted);font-size:.9rem}
+.unit-list{display:grid;gap:10px}
+.unit-choice{width:100%;padding:16px;background:#fff;color:var(--accent);border:2px solid var(--accent);font-weight:800;font-size:1.05rem}
+.unit-choice.current{background:var(--accent);color:#fff}
+.close-units{width:100%;margin-top:12px;background:#f5f7f8;color:var(--ink)}
+@media(max-height:720px){.flashcard{height:330px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div>
+    <h1>English Flashcards</h1>
+    <div class="muted" id="directionLabel"></div>
+  </div>
+  <div class="muted" id="roundLabel"></div>
+</header>
+
+<div class="controls">
+  <select id="category" aria-label="Categoría"></select>
+  <button class="smallbtn" id="restart">↻ Reiniciar</button>
+</div>
+
+<div class="progresswrap"><div class="progress" id="progress"></div></div>
+
+<div id="study">
+  <div class="flashcard" id="card" tabindex="0" role="button" aria-label="Toca para ver la respuesta">
+    <div class="inner">
+      <div class="face front">
+        <div class="badge" id="catFront"></div>
+        <div class="lang" id="frontLang">Español</div>
+        <div class="word" id="frontWord"></div>
+        <div class="hint">Toca para ver la respuesta</div>
+      </div>
+      <div class="face back">
+        <div class="badge" id="catBack"></div>
+        <div class="lang" id="backLang">English</div>
+        <div class="word" id="backWord"></div>
+        <div class="hint">Ahora marca ✓ o ✕</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rating">
+    <button id="wrong" disabled>✕ La tuve mal</button>
+    <button id="right" disabled>✓ La sé</button>
+  </div>
+
+  <div class="stats">
+    <span id="remaining"></span>
+    <span id="mistakes"></span>
+    <span id="mastered"></span>
+  </div>
+</div>
+
+<div class="overlay" id="done">
+  <h2>🎉 Ronda terminada</h2>
+  <p id="doneText"></p>
+  <button id="nextRound">Empezar siguiente ronda</button>
+</div>
+
+<button id="directionBtn" class="mode-switch">⇄ Cambiar idioma</button>
+<button id="unitBtn" class="mode-switch unit-switch">Unit 1</button>
+</div>
+
+<div class="unit-modal" id="unitModal" aria-hidden="true">
+  <div class="unit-panel">
+    <h2>Elige una unidad</h2>
+    <p>Selecciona las tarjetas que quieres estudiar.</p>
+    <div class="unit-list" id="unitList"></div>
+    <button class="close-units" id="closeUnits">Cancelar</button>
+  </div>
+</div>
+
 <script>
-const ALL = [{"id": 0, "es": "cinturón", "en": "belt", "cat": "Prendas de vestir"}, {"id": 1, "es": "americana / blazer", "en": "blazer", "cat": "Prendas de vestir"}, {"id": 2, "es": "blusa", "en": "blouse", "cat": "Prendas de vestir"}, {"id": 3, "es": "botas", "en": "boots", "cat": "Prendas de vestir"}, {"id": 4, "es": "pajarita", "en": "bow tie", "cat": "Prendas de vestir"}, {"id": 5, "es": "gorra (de béisbol)", "en": "(baseball) cap", "cat": "Prendas de vestir"}, {"id": 6, "es": "cárdigan / rebeca", "en": "cardigan", "cat": "Prendas de vestir"}, {"id": 7, "es": "chaqueta de esmoquin / esmoquin", "en": "dinner jacket", "cat": "Prendas de vestir"}, {"id": 8, "es": "vestido", "en": "dress", "cat": "Prendas de vestir"}, {"id": 9, "es": "bata", "en": "dressing gown", "cat": "Prendas de vestir"}, {"id": 10, "es": "peto / mono vaquero", "en": "dungarees", "cat": "Prendas de vestir"}, {"id": 11, "es": "disfraz / traje de disfraz", "en": "fancy dress", "cat": "Prendas de vestir"}, {"id": 12, "es": "sombrero", "en": "hat", "cat": "Prendas de vestir"}, {"id": 13, "es": "casco", "en": "helmet", "cat": "Prendas de vestir"}, {"id": 14, "es": "zapatos de tacón", "en": "high-heeled shoes", "cat": "Prendas de vestir"}, {"id": 15, "es": "chaqueta sport / americana informal", "en": "(sports) jacket", "cat": "Prendas de vestir"}, {"id": 16, "es": "vaqueros", "en": "jeans", "cat": "Prendas de vestir"}, {"id": 17, "es": "jersey", "en": "jumper / pullover / sweater", "cat": "Prendas de vestir"}, {"id": 18, "es": "abrigo", "en": "overcoat", "cat": "Prendas de vestir"}, {"id": 19, "es": "impermeable", "en": "raincoat", "cat": "Prendas de vestir"}, {"id": 20, "es": "bufanda", "en": "scarf", "cat": "Prendas de vestir"}, {"id": 21, "es": "camisa", "en": "shirt", "cat": "Prendas de vestir"}, {"id": 22, "es": "zapatos", "en": "shoes", "cat": "Prendas de vestir"}, {"id": 23, "es": "pantalones cortos", "en": "shorts", "cat": "Prendas de vestir"}, {"id": 24, "es": "falda", "en": "skirt", "cat": "Prendas de vestir"}, {"id": 25, "es": "zapatillas de casa", "en": "slippers", "cat": "Prendas de vestir"}, {"id": 26, "es": "calcetines", "en": "socks", "cat": "Prendas de vestir"}, {"id": 27, "es": "traje", "en": "suit", "cat": "Prendas de vestir"}, {"id": 28, "es": "sudadera", "en": "sweatshirt", "cat": "Prendas de vestir"}, {"id": 29, "es": "bañador", "en": "swimming costume", "cat": "Prendas de vestir"}, {"id": 30, "es": "bañador masculino / pantalón de baño", "en": "swimming trunks", "cat": "Prendas de vestir"}, {"id": 31, "es": "top / prenda de arriba", "en": "top", "cat": "Prendas de vestir"}, {"id": 32, "es": "camiseta", "en": "T-shirt", "cat": "Prendas de vestir"}, {"id": 33, "es": "corbata", "en": "tie", "cat": "Prendas de vestir"}, {"id": 34, "es": "medias / pantis", "en": "tights", "cat": "Prendas de vestir"}, {"id": 35, "es": "chándal", "en": "tracksuit", "cat": "Prendas de vestir"}, {"id": 36, "es": "zapatillas deportivas", "en": "trainers", "cat": "Prendas de vestir"}, {"id": 37, "es": "pantalones", "en": "trousers", "cat": "Prendas de vestir"}, {"id": 38, "es": "chaleco", "en": "waistcoat", "cat": "Prendas de vestir"}, {"id": 39, "es": "pulsera", "en": "bracelet", "cat": "Joyas"}, {"id": 40, "es": "broche", "en": "brooch", "cat": "Joyas"}, {"id": 41, "es": "pendientes", "en": "earrings", "cat": "Joyas"}, {"id": 42, "es": "collar", "en": "necklace", "cat": "Joyas"}, {"id": 43, "es": "colgante", "en": "pendant", "cat": "Joyas"}, {"id": 44, "es": "anillo", "en": "ring", "cat": "Joyas"}, {"id": 45, "es": "de cuadros", "en": "checked", "cat": "Estampados"}, {"id": 46, "es": "de flores / floreado", "en": "flowery", "cat": "Estampados"}, {"id": 47, "es": "estampado", "en": "patterned", "cat": "Estampados"}, {"id": 48, "es": "liso / sin estampado", "en": "plain", "cat": "Estampados"}, {"id": 49, "es": "de lunares / con puntos", "en": "spotted", "cat": "Estampados"}, {"id": 50, "es": "de rayas", "en": "striped", "cat": "Estampados"}, {"id": 51, "es": "muy holgado / ancho", "en": "baggy", "cat": "Adjetivos"}, {"id": 52, "es": "informal", "en": "casual", "cat": "Adjetivos"}, {"id": 53, "es": "colorido", "en": "colourful", "cat": "Adjetivos"}, {"id": 54, "es": "de diseñador / de marca", "en": "designer", "cat": "Adjetivos"}, {"id": 55, "es": "formal / de vestir", "en": "formal", "cat": "Adjetivos"}, {"id": 56, "es": "de manga larga", "en": "long-sleeved", "cat": "Adjetivos"}, {"id": 57, "es": "holgado", "en": "loose-fitting", "cat": "Adjetivos"}, {"id": 58, "es": "plisado", "en": "pleated", "cat": "Adjetivos"}, {"id": 59, "es": "de segunda mano", "en": "second-hand", "cat": "Adjetivos"}, {"id": 60, "es": "gastado / deteriorado / desaliñado", "en": "shabby", "cat": "Adjetivos"}, {"id": 61, "es": "de manga corta", "en": "short-sleeved", "cat": "Adjetivos"}, {"id": 62, "es": "elegante / bien arreglado", "en": "smart", "cat": "Adjetivos"}, {"id": 63, "es": "de buen gusto", "en": "tasteful", "cat": "Adjetivos"}, {"id": 64, "es": "ajustado / ceñido", "en": "tight-fitting", "cat": "Adjetivos"}, {"id": 65, "es": "de moda / moderno", "en": "trendy", "cat": "Adjetivos"}, {"id": 66, "es": "de moda", "en": "fashionable", "cat": "Adjetivos"}, {"id": 67, "es": "pasado de moda / poco a la moda", "en": "unfashionable", "cat": "Adjetivos"}, {"id": 68, "es": "impermeable", "en": "waterproof", "cat": "Adjetivos"}, {"id": 69, "es": "desgastado / muy gastado", "en": "worn out", "cat": "Adjetivos"}, {"id": 70, "es": "algodón", "en": "cotton", "cat": "Materiales"}, {"id": 71, "es": "tela vaquera / denim", "en": "denim", "cat": "Materiales"}, {"id": 72, "es": "cuero / piel", "en": "leather", "cat": "Materiales"}, {"id": 73, "es": "de lana", "en": "woollen", "cat": "Materiales"}, {"id": 74, "es": "nailon", "en": "nylon", "cat": "Materiales"}, {"id": 75, "es": "seda", "en": "silk", "cat": "Materiales"}, {"id": 76, "es": "ante", "en": "suede", "cat": "Materiales"}, {"id": 77, "es": "disfrazarse de alguien/algo", "en": "dress up as somebody/something", "cat": "Verbos"}, {"id": 78, "es": "quedar bien de talla / ser de la talla adecuada", "en": "fit", "cat": "Verbos"}, {"id": 79, "es": "vestirse", "en": "get dressed", "cat": "Verbos"}, {"id": 80, "es": "desvestirse", "en": "get undressed", "cat": "Verbos"}, {"id": 81, "es": "combinar con", "en": "go with", "cat": "Verbos"}, {"id": 82, "es": "hacer juego con / combinar", "en": "match", "cat": "Verbos"}, {"id": 83, "es": "ponerse", "en": "put on", "cat": "Verbos"}, {"id": 84, "es": "sentar bien / favorecer", "en": "suit", "cat": "Verbos"}, {"id": 85, "es": "quitarse", "en": "take off", "cat": "Verbos"}, {"id": 86, "es": "llevar puesto / vestir", "en": "wear", "cat": "Verbos"}];
-let selectedCategory='Todas', round=1, queue=[], masteredIds=new Set(), mistakes=0, flipped=false, direction=localStorage.getItem('unit1direction')||'es-en';
-const E=Object.fromEntries(['category','restart','progress','study','card','catFront','catBack','frontLang','backLang','frontWord','backWord','wrong','right','remaining','mistakes','mastered','done','doneText','nextRound','roundLabel','directionLabel','directionBtn'].map(id=>[id,document.getElementById(id)]));
-const categories=['Todas',...new Set(ALL.map(c=>c.cat))]; E.category.innerHTML=categories.map(c=>`<option value="${c}">${c}</option>`).join('');
-function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function baseCards(){return selectedCategory==='Todas'?ALL:ALL.filter(c=>c.cat===selectedCategory)}
-function save(){localStorage.setItem('unit1state',JSON.stringify({selectedCategory,round,queue:queue.map(c=>c.id),mastered:[...masteredIds],mistakes,direction}));localStorage.setItem('unit1direction',direction)}
-function restore(){try{const s=JSON.parse(localStorage.getItem('unit1state')||'null');if(!s)return false;selectedCategory=s.selectedCategory||'Todas';round=s.round||1;queue=(s.queue||[]).map(id=>ALL.find(c=>c.id===id)).filter(Boolean);masteredIds=new Set(s.mastered||[]);mistakes=s.mistakes||0;direction=localStorage.getItem('unit1direction')||s.direction||'es-en';E.category.value=selectedCategory;return queue.length>0}catch(e){return false}}
-function startRound(inc=false){if(inc)round++;queue=shuffle(baseCards());masteredIds=new Set();mistakes=0;E.done.classList.remove('show');E.study.style.display='';save();render()}
-function updateDirectionUI(){const esFirst=direction==='es-en';E.directionLabel.textContent=esFirst?'Español → Inglés · repaso inteligente':'Inglés → Español · repaso inteligente';E.frontLang.textContent=esFirst?'Español':'English';E.backLang.textContent=esFirst?'English':'Español';E.directionBtn.textContent=esFirst?'⇄ Cambiar a: INGLÉS → ESPAÑOL':'⇄ Cambiar a: ESPAÑOL → INGLÉS'}
-function render(){if(queue.length===0){finishRound();return}const c=queue[0],esFirst=direction==='es-en';E.frontWord.textContent=esFirst?c.es:c.en;E.backWord.textContent=esFirst?c.en:c.es;E.catFront.textContent=c.cat;E.catBack.textContent=c.cat;updateDirectionUI();E.card.classList.remove('flipped');flipped=false;E.right.disabled=true;E.wrong.disabled=true;updateStats();save()}
-function updateStats(){const total=baseCards().length,done=masteredIds.size;E.remaining.textContent=`Pendientes: ${queue.length}`;E.mistakes.textContent=`Fallos: ${mistakes}`;E.mastered.textContent=`Dominadas: ${done} / ${total}`;E.roundLabel.textContent=`Ronda ${round}`;E.progress.style.width=`${total?(done/total)*100:0}%`}
-function flip(){if(!queue.length)return;E.card.classList.toggle('flipped');flipped=E.card.classList.contains('flipped');E.right.disabled=!flipped;E.wrong.disabled=!flipped}
-function markRight(){if(!flipped||!queue.length)return;const c=queue.shift();masteredIds.add(c.id);render()}
-function markWrong(){if(!flipped||!queue.length)return;const c=queue.shift();mistakes++;const gap=Math.random()<.5?4:5;queue.splice(Math.min(gap,queue.length),0,c);render()}
-function finishRound(){E.study.style.display='none';E.done.classList.add('show');E.progress.style.width='100%';E.doneText.textContent=`Has completado las ${baseCards().length} tarjetas. Tuviste ${mistakes} fallos durante esta ronda.`;E.roundLabel.textContent=`Ronda ${round} completada`;updateDirectionUI();localStorage.removeItem('unit1state');localStorage.setItem('unit1direction',direction)}
-E.card.onclick=flip;E.right.onclick=markRight;E.wrong.onclick=markWrong;E.nextRound.onclick=()=>startRound(true);E.restart.onclick=()=>startRound(false);E.category.onchange=()=>{selectedCategory=E.category.value;round=1;startRound(false)};E.directionBtn.onclick=()=>{direction=direction==='es-en'?'en-es':'es-en';localStorage.setItem('unit1direction',direction);if(queue.length)render();else updateDirectionUI()};
-if(restore()){E.done.classList.remove('show');E.study.style.display='';render()}else startRound(false);
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));}
-</script></body></html>
+const UNITS={"unit1":{"label":"Unit 1","cards":[{"id":0,"es":"cinturón","en":"belt","cat":"Prendas de vestir"},{"id":1,"es":"americana / blazer","en":"blazer","cat":"Prendas de vestir"},{"id":2,"es":"blusa","en":"blouse","cat":"Prendas de vestir"},{"id":3,"es":"botas","en":"boots","cat":"Prendas de vestir"},{"id":4,"es":"pajarita","en":"bow tie","cat":"Prendas de vestir"},{"id":5,"es":"gorra (de béisbol)","en":"(baseball) cap","cat":"Prendas de vestir"},{"id":6,"es":"cárdigan / rebeca","en":"cardigan","cat":"Prendas de vestir"},{"id":7,"es":"chaqueta de esmoquin / esmoquin","en":"dinner jacket","cat":"Prendas de vestir"},{"id":8,"es":"vestido","en":"dress","cat":"Prendas de vestir"},{"id":9,"es":"bata","en":"dressing gown","cat":"Prendas de vestir"},{"id":10,"es":"peto / mono vaquero","en":"dungarees","cat":"Prendas de vestir"},{"id":11,"es":"disfraz / traje de disfraz","en":"fancy dress","cat":"Prendas de vestir"},{"id":12,"es":"sombrero","en":"hat","cat":"Prendas de vestir"},{"id":13,"es":"casco","en":"helmet","cat":"Prendas de vestir"},{"id":14,"es":"zapatos de tacón","en":"high-heeled shoes","cat":"Prendas de vestir"},{"id":15,"es":"chaqueta sport / americana informal","en":"(sports) jacket","cat":"Prendas de vestir"},{"id":16,"es":"vaqueros","en":"jeans","cat":"Prendas de vestir"},{"id":17,"es":"jersey","en":"jumper / pullover / sweater","cat":"Prendas de vestir"},{"id":18,"es":"abrigo","en":"overcoat","cat":"Prendas de vestir"},{"id":19,"es":"impermeable","en":"raincoat","cat":"Prendas de vestir"},{"id":20,"es":"bufanda","en":"scarf","cat":"Prendas de vestir"},{"id":21,"es":"camisa","en":"shirt","cat":"Prendas de vestir"},{"id":22,"es":"zapatos","en":"shoes","cat":"Prendas de vestir"},{"id":23,"es":"pantalones cortos","en":"shorts","cat":"Prendas de vestir"},{"id":24,"es":"falda","en":"skirt","cat":"Prendas de vestir"},{"id":25,"es":"zapatillas de casa","en":"slippers","cat":"Prendas de vestir"},{"id":26,"es":"calcetines","en":"socks","cat":"Prendas de vestir"},{"id":27,"es":"traje","en":"suit","cat":"Prendas de vestir"},{"id":28,"es":"sudadera","en":"sweatshirt","cat":"Prendas de vestir"},{"id":29,"es":"bañador","en":"swimming costume","cat":"Prendas de vestir"},{"id":30,"es":"bañador masculino / pantalón de baño","en":"swimming trunks","cat":"Prendas de vestir"},{"id":31,"es":"top / prenda de arriba","en":"top","cat":"Prendas de vestir"},{"id":32,"es":"camiseta","en":"T-shirt","cat":"Prendas de vestir"},{"id":33,"es":"corbata","en":"tie","cat":"Prendas de vestir"},{"id":34,"es":"medias / pantis","en":"tights","cat":"Prendas de vestir"},{"id":35,"es":"chándal","en":"tracksuit","cat":"Prendas de vestir"},{"id":36,"es":"zapatillas deportivas","en":"trainers","cat":"Prendas de vestir"},{"id":37,"es":"pantalones","en":"trousers","cat":"Prendas de vestir"},{"id":38,"es":"chaleco","en":"waistcoat","cat":"Prendas de vestir"},{"id":39,"es":"pulsera","en":"bracelet","cat":"Joyas"},{"id":40,"es":"broche","en":"brooch","cat":"Joyas"},{"id":41,"es":"pendientes","en":"earrings","cat":"Joyas"},{"id":42,"es":"collar","en":"necklace","cat":"Joyas"},{"id":43,"es":"colgante","en":"pendant","cat":"Joyas"},{"id":44,"es":"anillo","en":"ring","cat":"Joyas"},{"id":45,"es":"de cuadros","en":"checked","cat":"Estampados"},{"id":46,"es":"de flores / floreado","en":"flowery","cat":"Estampados"},{"id":47,"es":"estampado","en":"patterned","cat":"Estampados"},{"id":48,"es":"liso / sin estampado","en":"plain","cat":"Estampados"},{"id":49,"es":"de lunares / con puntos","en":"spotted","cat":"Estampados"},{"id":50,"es":"de rayas","en":"striped","cat":"Estampados"},{"id":51,"es":"muy holgado / ancho","en":"baggy","cat":"Adjetivos"},{"id":52,"es":"informal","en":"casual","cat":"Adjetivos"},{"id":53,"es":"colorido","en":"colourful","cat":"Adjetivos"},{"id":54,"es":"de diseñador / de marca","en":"designer","cat":"Adjetivos"},{"id":55,"es":"formal / de vestir","en":"formal","cat":"Adjetivos"},{"id":56,"es":"de manga larga","en":"long-sleeved","cat":"Adjetivos"},{"id":57,"es":"holgado","en":"loose-fitting","cat":"Adjetivos"},{"id":58,"es":"plisado","en":"pleated","cat":"Adjetivos"},{"id":59,"es":"de segunda mano","en":"second-hand","cat":"Adjetivos"},{"id":60,"es":"gastado / deteriorado / desaliñado","en":"shabby","cat":"Adjetivos"},{"id":61,"es":"de manga corta","en":"short-sleeved","cat":"Adjetivos"},{"id":62,"es":"elegante / bien arreglado","en":"smart","cat":"Adjetivos"},{"id":63,"es":"de buen gusto","en":"tasteful","cat":"Adjetivos"},{"id":64,"es":"ajustado / ceñido","en":"tight-fitting","cat":"Adjetivos"},{"id":65,"es":"de moda / moderno","en":"trendy","cat":"Adjetivos"},{"id":66,"es":"de moda","en":"fashionable","cat":"Adjetivos"},{"id":67,"es":"pasado de moda / poco a la moda","en":"unfashionable","cat":"Adjetivos"},{"id":68,"es":"impermeable","en":"waterproof","cat":"Adjetivos"},{"id":69,"es":"desgastado / muy gastado","en":"worn out","cat":"Adjetivos"},{"id":70,"es":"algodón","en":"cotton","cat":"Materiales"},{"id":71,"es":"tela vaquera / denim","en":"denim","cat":"Materiales"},{"id":72,"es":"cuero / piel","en":"leather","cat":"Materiales"},{"id":73,"es":"de lana","en":"woollen","cat":"Materiales"},{"id":74,"es":"nailon","en":"nylon","cat":"Materiales"},{"id":75,"es":"seda","en":"silk","cat":"Materiales"},{"id":76,"es":"ante","en":"suede","cat":"Materiales"},{"id":77,"es":"disfrazarse de alguien/algo","en":"dress up as somebody/something","cat":"Verbos"},{"id":78,"es":"quedar bien de talla / ser de la talla adecuada","en":"fit","cat":"Verbos"},{"id":79,"es":"vestirse","en":"get dressed","cat":"Verbos"},{"id":80,"es":"desvestirse","en":"get undressed","cat":"Verbos"},{"id":81,"es":"combinar con","en":"go with","cat":"Verbos"},{"id":82,"es":"hacer juego con / combinar","en":"match","cat":"Verbos"},{"id":83,"es":"ponerse","en":"put on","cat":"Verbos"},{"id":84,"es":"sentar bien / favorecer","en":"suit","cat":"Verbos"},{"id":85,"es":"quitarse","en":"take off","cat":"Verbos"},{"id":86,"es":"llevar puesto / vestir","en":"wear","cat":"Verbos"}]},"unit2":{"label":"Unit 2","cards":[{"id":0,"es":"acordeón","en":"accordion","cat":"Instrumentos musicales"},{"id":1,"es":"violonchelo","en":"cello","cat":"Instrumentos musicales"},{"id":2,"es":"clarinete","en":"clarinet","cat":"Instrumentos musicales"},{"id":3,"es":"contrabajo","en":"double bass","cat":"Instrumentos musicales"},{"id":4,"es":"tambor / batería","en":"drum(s)","cat":"Instrumentos musicales"},{"id":5,"es":"flauta","en":"flute","cat":"Instrumentos musicales"},{"id":6,"es":"guitarra","en":"guitar","cat":"Instrumentos musicales"},{"id":7,"es":"teclados","en":"keyboards","cat":"Instrumentos musicales"},{"id":8,"es":"órgano","en":"organ","cat":"Instrumentos musicales"},{"id":9,"es":"piano eléctrico / piano de cola","en":"electric / grand piano","cat":"Instrumentos musicales"},{"id":10,"es":"saxofón","en":"saxophone","cat":"Instrumentos musicales"},{"id":11,"es":"pandereta","en":"tambourine","cat":"Instrumentos musicales"},{"id":12,"es":"trombón","en":"trombone","cat":"Instrumentos musicales"},{"id":13,"es":"trompeta","en":"trumpet","cat":"Instrumentos musicales"},{"id":14,"es":"violín","en":"violin","cat":"Instrumentos musicales"},{"id":15,"es":"instrumento de viento / de cuerda","en":"wind / stringed instrument","cat":"Instrumentos musicales"},{"id":16,"es":"corista","en":"backing vocalist","cat":"Música: personas"},{"id":17,"es":"público de un concierto","en":"concert audience","cat":"Música: personas"},{"id":18,"es":"DJ / disc-jockey","en":"DJ / disc jockey","cat":"Música: personas"},{"id":19,"es":"cantante principal / guitarrista principal","en":"lead singer / guitarist","cat":"Música: personas"},{"id":20,"es":"grupo de rock / folk / rap, etc.","en":"rock / folk / rap, etc. band","cat":"Música: personas"},{"id":21,"es":"cantante de rock / folk / rap, etc.","en":"rock / folk / rap, etc. singer","cat":"Música: personas"},{"id":22,"es":"estrella del rock / folk / rap, etc.","en":"rock / folk / rap, etc. star","cat":"Música: personas"},{"id":23,"es":"músico de sesión","en":"session musician","cat":"Música: personas"},{"id":24,"es":"un álbum en directo","en":"a live album","cat":"Música: tocar y actuar"},{"id":25,"es":"un concierto en directo","en":"a live concert","cat":"Música: tocar y actuar"},{"id":26,"es":"un concierto / bolo","en":"a gig","cat":"Música: tocar y actuar"},{"id":27,"es":"una actuación","en":"a performance","cat":"Música: tocar y actuar"},{"id":28,"es":"un festival de música / rock","en":"a music / rock festival","cat":"Música: tocar y actuar"},{"id":29,"es":"tener un disco en las listas de éxitos","en":"have a record in the charts","cat":"Música: tocar y actuar"},{"id":30,"es":"estar afinado","en":"be in tune","cat":"Música: tocar y actuar"},{"id":31,"es":"dar un concierto","en":"give a concert","cat":"Música: tocar y actuar"},{"id":32,"es":"de gira","en":"on tour","cat":"Música: tocar y actuar"},{"id":33,"es":"en el escenario","en":"on stage","cat":"Música: tocar y actuar"},{"id":34,"es":"en la radio","en":"on the radio","cat":"Música: tocar y actuar"},{"id":35,"es":"tocar una melodía","en":"play a tune","cat":"Música: tocar y actuar"},{"id":36,"es":"poner / reproducir un disco","en":"play a record","cat":"Música: tocar y actuar"},{"id":37,"es":"reproducir / tocar una pista","en":"play a track","cat":"Música: tocar y actuar"},{"id":38,"es":"cantar una canción","en":"sing a song","cat":"Música: tocar y actuar"},{"id":39,"es":"interpretar una canción","en":"perform a song","cat":"Música: tocar y actuar"},{"id":40,"es":"hacer playback de una canción","en":"mime a song","cat":"Música: tocar y actuar"},{"id":41,"es":"aeróbic","en":"aerobics","cat":"Deportes: do"},{"id":42,"es":"atletismo","en":"athletics","cat":"Deportes: do"},{"id":43,"es":"gimnasia","en":"gymnastics","cat":"Deportes: do"},{"id":44,"es":"ciclismo / ir en bicicleta","en":"cycling","cat":"Deportes: go"},{"id":45,"es":"buceo","en":"diving","cat":"Deportes: go"},{"id":46,"es":"equitación / montar a caballo","en":"horse-riding","cat":"Deportes: go"},{"id":47,"es":"footing / salir a correr suavemente","en":"jogging","cat":"Deportes: go"},{"id":48,"es":"correr / carrera","en":"running","cat":"Deportes: go"},{"id":49,"es":"vela / navegación a vela","en":"sailing","cat":"Deportes: go"},{"id":50,"es":"esquí","en":"skiing","cat":"Deportes: go"},{"id":51,"es":"snowboard","en":"snowboarding","cat":"Deportes: go"},{"id":52,"es":"surf / windsurf","en":"(wind)surfing","cat":"Deportes: go"},{"id":53,"es":"natación","en":"swimming","cat":"Deportes: go"},{"id":54,"es":"bádminton","en":"badminton","cat":"Deportes: play"},{"id":55,"es":"béisbol","en":"baseball","cat":"Deportes: play"},{"id":56,"es":"baloncesto","en":"basketball","cat":"Deportes: play"},{"id":57,"es":"fútbol","en":"football","cat":"Deportes: play"},{"id":58,"es":"golf","en":"golf","cat":"Deportes: play"},{"id":59,"es":"balonmano","en":"handball","cat":"Deportes: play"},{"id":60,"es":"hockey","en":"hockey","cat":"Deportes: play"},{"id":61,"es":"rugby","en":"rugby","cat":"Deportes: play"},{"id":62,"es":"tenis","en":"tennis","cat":"Deportes: play"},{"id":63,"es":"voleibol","en":"volleyball","cat":"Deportes: play"},{"id":64,"es":"atleta","en":"athlete","cat":"Deportes: personas"},{"id":65,"es":"jugador de béisbol / baloncesto, etc.","en":"baseball / basketball etc. player","cat":"Deportes: personas"},{"id":66,"es":"ciclista","en":"cyclist","cat":"Deportes: personas"},{"id":67,"es":"buceador","en":"diver","cat":"Deportes: personas"},{"id":68,"es":"golfista","en":"golfer","cat":"Deportes: personas"},{"id":69,"es":"gimnasta","en":"gymnast","cat":"Deportes: personas"},{"id":70,"es":"persona que hace footing / corredor","en":"jogger","cat":"Deportes: personas"},{"id":71,"es":"corredor","en":"runner","cat":"Deportes: personas"},{"id":72,"es":"esquiador","en":"skier","cat":"Deportes: personas"},{"id":73,"es":"practicante de snowboard","en":"snowboarder","cat":"Deportes: personas"},{"id":74,"es":"nadador","en":"swimmer","cat":"Deportes: personas"},{"id":75,"es":"surfista / windsurfista","en":"(wind)surfer","cat":"Deportes: personas"},{"id":76,"es":"competidor","en":"competitor","cat":"Deportes: personas"},{"id":77,"es":"adversario / oponente","en":"opponent","cat":"Deportes: personas"},{"id":78,"es":"participante","en":"participant","cat":"Deportes: personas"},{"id":79,"es":"árbitro","en":"referee","cat":"Deportes: personas"},{"id":80,"es":"subcampeón","en":"runner-up","cat":"Deportes: personas"},{"id":81,"es":"espectador","en":"spectator","cat":"Deportes: personas"},{"id":82,"es":"aficionado / seguidor","en":"supporter","cat":"Deportes: personas"},{"id":83,"es":"equipo","en":"team","cat":"Deportes: personas"},{"id":84,"es":"árbitro (tenis / bádminton / voleibol)","en":"umpire (badminton / tennis / volleyball)","cat":"Deportes: personas"},{"id":85,"es":"ganador","en":"winner","cat":"Deportes: personas"},{"id":86,"es":"pista de atletismo / ciclismo","en":"athletics / cycling track","cat":"Deportes: lugares"},{"id":87,"es":"estadio de atletismo / fútbol","en":"athletics / football sports stadium","cat":"Deportes: lugares"},{"id":88,"es":"cancha / pista de baloncesto / tenis / voleibol","en":"basketball / tennis / volleyball court","cat":"Deportes: lugares"},{"id":89,"es":"campo de fútbol / hockey / rugby","en":"football / hockey / rugby pitch","cat":"Deportes: lugares"},{"id":90,"es":"campo de golf","en":"golf course","cat":"Deportes: lugares"},{"id":91,"es":"gimnasio","en":"gym","cat":"Deportes: lugares"},{"id":92,"es":"pista de patinaje sobre hielo","en":"ice-skating rink","cat":"Deportes: lugares"},{"id":93,"es":"circuito de automovilismo","en":"motor-racing circuit","cat":"Deportes: lugares"},{"id":94,"es":"pista de esquí","en":"ski slope","cat":"Deportes: lugares"},{"id":95,"es":"piscina","en":"swimming pool","cat":"Deportes: lugares"},{"id":96,"es":"jugar / participar / competir en…","en":"play / take part / compete in…","cat":"Deportes: eventos"},{"id":97,"es":"un partido de fútbol","en":"a football match","cat":"Deportes: eventos"},{"id":98,"es":"un torneo de golf / tenis","en":"a golf / tennis tournament","cat":"Deportes: eventos"},{"id":99,"es":"un acontecimiento deportivo","en":"a sporting event","cat":"Deportes: eventos"},{"id":100,"es":"una competición de surf / natación","en":"a surfing / swimming competition","cat":"Deportes: eventos"},{"id":101,"es":"una competición / reunión de atletismo","en":"an athletics meeting","cat":"Deportes: eventos"},{"id":102,"es":"el campeonato nacional / mundial","en":"the national / world championship","cat":"Deportes: eventos"},{"id":103,"es":"raqueta de bádminton / tenis","en":"badminton / tennis racket","cat":"Deportes: equipamiento"},{"id":104,"es":"bate de béisbol / pala de tenis de mesa","en":"baseball / table tennis bat","cat":"Deportes: equipamiento"},{"id":105,"es":"botas de fútbol / rugby","en":"football / rugby boots","cat":"Deportes: equipamiento"},{"id":106,"es":"palos de golf","en":"golf clubs","cat":"Deportes: equipamiento"},{"id":107,"es":"palo de hockey","en":"hockey stick","cat":"Deportes: equipamiento"},{"id":108,"es":"zapatillas de correr / tenis","en":"running / tennis shoes","cat":"Deportes: equipamiento"},{"id":109,"es":"casco de seguridad","en":"safety helmet","cat":"Deportes: equipamiento"},{"id":110,"es":"espinilleras / rodilleras","en":"shin / knee pads","cat":"Deportes: equipamiento"},{"id":111,"es":"volante de bádminton","en":"shuttlecock","cat":"Deportes: equipamiento"},{"id":112,"es":"monopatín / tabla de surf / tabla de snowboard","en":"skateboard / surfboard / snowboard","cat":"Deportes: equipamiento"},{"id":113,"es":"gafas de esquí / natación","en":"skiing / swimming goggles","cat":"Deportes: equipamiento"},{"id":114,"es":"esquís y bastones de esquí","en":"skis and ski poles","cat":"Deportes: equipamiento"},{"id":115,"es":"cinta para el sudor","en":"sweatband","cat":"Deportes: equipamiento"},{"id":116,"es":"vencer a un rival / al equipo contrario","en":"beat an opponent / opposing team","cat":"Deportes: verbos"},{"id":117,"es":"batir un récord","en":"break a record","cat":"Deportes: verbos"},{"id":118,"es":"ostentar / tener un récord","en":"hold a record","cat":"Deportes: verbos"},{"id":119,"es":"practicar un deporte","en":"do / play a sport","cat":"Deportes: verbos"},{"id":120,"es":"empatar un partido","en":"draw a match / game","cat":"Deportes: verbos"},{"id":121,"es":"practicar / aficionarse a un deporte","en":"go in for a sport","cat":"Deportes: verbos"},{"id":122,"es":"perder un partido","en":"lose a game / match","cat":"Deportes: verbos"},{"id":123,"es":"practicar un tiro / golpe","en":"practise a shot","cat":"Deportes: verbos"},{"id":124,"es":"empezar a practicar un nuevo deporte","en":"take up a new sport","cat":"Deportes: verbos"},{"id":125,"es":"ganar una medalla","en":"win a medal","cat":"Deportes: verbos"},{"id":126,"es":"ganar un partido / competición","en":"win a match / competition / game","cat":"Deportes: verbos"}]}};
+let currentUnit=localStorage.getItem('flashcards-current-unit')||'unit1';
+if(!UNITS[currentUnit]) currentUnit='unit1';
+
+let selectedCategory='Todas';
+let round=1;
+let queue=[];
+let masteredIds=new Set();
+let mistakes=0;
+let flipped=false;
+let direction=localStorage.getItem('flashcards-direction')||localStorage.getItem('unit1direction')||'es-en';
+
+const E=Object.fromEntries([
+  'category','restart','progress','study','card','catFront','catBack','frontLang','backLang',
+  'frontWord','backWord','wrong','right','remaining','mistakes','mastered','done','doneText',
+  'nextRound','roundLabel','directionLabel','directionBtn','unitBtn','unitModal','unitList','closeUnits'
+].map(id=>[id,document.getElementById(id)]));
+
+function cards(){return UNITS[currentUnit].cards}
+function unitLabel(){return UNITS[currentUnit].label}
+
+function shuffle(a){
+  a=[...a];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function baseCards(){
+  return selectedCategory==='Todas' ? cards() : cards().filter(c=>c.cat===selectedCategory);
+}
+
+function stateKey(unit=currentUnit){return `flashcards-state-${unit}`}
+
+function save(){
+  localStorage.setItem(stateKey(),JSON.stringify({
+    selectedCategory,round,queue:queue.map(c=>c.id),mastered:[...masteredIds],mistakes
+  }));
+  localStorage.setItem('flashcards-direction',direction);
+  localStorage.setItem('flashcards-current-unit',currentUnit);
+}
+
+function migrateLegacyUnit1(){
+  if(localStorage.getItem(stateKey('unit1'))) return;
+  const legacy=localStorage.getItem('unit1state');
+  if(!legacy) return;
+  try{
+    const s=JSON.parse(legacy);
+    localStorage.setItem(stateKey('unit1'),JSON.stringify({
+      selectedCategory:s.selectedCategory||'Todas',
+      round:s.round||1,
+      queue:s.queue||[],
+      mastered:s.mastered||[],
+      mistakes:s.mistakes||0
+    }));
+  }catch(_){
+    // Si el estado antiguo no se puede leer, simplemente se empieza una ronda nueva.
+  }
+}
+migrateLegacyUnit1();
+
+function restore(){
+  try{
+    const s=JSON.parse(localStorage.getItem(stateKey())||'null');
+    if(!s) return false;
+    selectedCategory=s.selectedCategory||'Todas';
+    round=s.round||1;
+    queue=(s.queue||[]).map(id=>cards().find(c=>c.id===id)).filter(Boolean);
+    masteredIds=new Set(s.mastered||[]);
+    mistakes=s.mistakes||0;
+    return queue.length>0;
+  }catch(_){
+    return false;
+  }
+}
+
+function rebuildCategories(){
+  const categories=['Todas',...new Set(cards().map(c=>c.cat))];
+  if(!categories.includes(selectedCategory)) selectedCategory='Todas';
+  E.category.innerHTML=categories.map(c=>`<option value="${c}">${c}</option>`).join('');
+  E.category.value=selectedCategory;
+}
+
+function startRound(increment=false){
+  if(increment) round++;
+  queue=shuffle(baseCards());
+  masteredIds=new Set();
+  mistakes=0;
+  E.done.classList.remove('show');
+  E.study.style.display='';
+  render();
+}
+
+function updateDirectionUI(){
+  const esFirst=direction==='es-en';
+  E.directionLabel.textContent=`${unitLabel()} · ${esFirst?'Español → Inglés':'Inglés → Español'} · repaso inteligente`;
+  E.frontLang.textContent=esFirst?'Español':'English';
+  E.backLang.textContent=esFirst?'English':'Español';
+  E.directionBtn.textContent=esFirst?'⇄ Cambiar a: INGLÉS → ESPAÑOL':'⇄ Cambiar a: ESPAÑOL → INGLÉS';
+  E.unitBtn.textContent=unitLabel();
+}
+
+function resetCardToFrontInstantly(){
+  const inner=E.card.querySelector('.inner');
+  inner.style.transition='none';
+  E.card.classList.remove('flipped');
+  flipped=false;
+  void inner.offsetWidth;
+  return inner;
+}
+
+function render(){
+  if(queue.length===0){
+    finishRound();
+    return;
+  }
+
+  const inner=resetCardToFrontInstantly();
+
+  const c=queue[0];
+  const esFirst=direction==='es-en';
+  E.frontWord.textContent=esFirst?c.es:c.en;
+  E.backWord.textContent=esFirst?c.en:c.es;
+  E.catFront.textContent=c.cat;
+  E.catBack.textContent=c.cat;
+
+  updateDirectionUI();
+  E.right.disabled=true;
+  E.wrong.disabled=true;
+  updateStats();
+  save();
+
+  requestAnimationFrame(()=>{inner.style.transition=''});
+}
+
+function updateStats(){
+  const total=baseCards().length;
+  const done=masteredIds.size;
+  E.remaining.textContent=`Pendientes: ${queue.length}`;
+  E.mistakes.textContent=`Fallos: ${mistakes}`;
+  E.mastered.textContent=`Dominadas: ${done} / ${total}`;
+  E.roundLabel.textContent=`Ronda ${round}`;
+  E.progress.style.width=`${total?(done/total)*100:0}%`;
+}
+
+function flip(){
+  if(!queue.length) return;
+  E.card.classList.toggle('flipped');
+  flipped=E.card.classList.contains('flipped');
+  E.right.disabled=!flipped;
+  E.wrong.disabled=!flipped;
+}
+
+function markRight(){
+  if(!flipped||!queue.length) return;
+  const c=queue.shift();
+  masteredIds.add(c.id);
+  render();
+}
+
+function markWrong(){
+  if(!flipped||!queue.length) return;
+  const c=queue.shift();
+  mistakes++;
+  const gap=Math.random()<.5?4:5;
+  queue.splice(Math.min(gap,queue.length),0,c);
+  render();
+}
+
+function finishRound(){
+  E.study.style.display='none';
+  E.done.classList.add('show');
+  E.progress.style.width='100%';
+  E.doneText.textContent=`Has completado las ${baseCards().length} tarjetas de ${unitLabel()}. Tuviste ${mistakes} fallos durante esta ronda.`;
+  E.roundLabel.textContent=`Ronda ${round} completada`;
+  updateDirectionUI();
+  localStorage.removeItem(stateKey());
+  localStorage.setItem('flashcards-current-unit',currentUnit);
+  localStorage.setItem('flashcards-direction',direction);
+}
+
+function loadCurrentUnit(){
+  selectedCategory='Todas';
+  round=1;
+  queue=[];
+  masteredIds=new Set();
+  mistakes=0;
+  flipped=false;
+
+  if(restore()){
+    rebuildCategories();
+    E.done.classList.remove('show');
+    E.study.style.display='';
+    render();
+  }else{
+    rebuildCategories();
+    startRound(false);
+  }
+}
+
+function openUnitModal(){
+  E.unitList.innerHTML=Object.entries(UNITS).map(([key,u])=>
+    `<button class="unit-choice ${key===currentUnit?'current':''}" data-unit="${key}">${u.label}</button>`
+  ).join('');
+  E.unitModal.classList.add('show');
+  E.unitModal.setAttribute('aria-hidden','false');
+}
+
+function closeUnitModal(){
+  E.unitModal.classList.remove('show');
+  E.unitModal.setAttribute('aria-hidden','true');
+}
+
+function switchUnit(nextUnit){
+  if(!UNITS[nextUnit]) return;
+  save();
+  currentUnit=nextUnit;
+  localStorage.setItem('flashcards-current-unit',currentUnit);
+  closeUnitModal();
+  loadCurrentUnit();
+}
+
+E.card.onclick=flip;
+E.card.addEventListener('keydown',e=>{
+  if(e.key==='Enter'||e.key===' '){
+    e.preventDefault();
+    flip();
+  }
+});
+E.right.onclick=markRight;
+E.wrong.onclick=markWrong;
+E.nextRound.onclick=()=>startRound(true);
+E.restart.onclick=()=>startRound(false);
+E.category.onchange=()=>{
+  selectedCategory=E.category.value;
+  round=1;
+  startRound(false);
+};
+E.directionBtn.onclick=()=>{
+  direction=direction==='es-en'?'en-es':'es-en';
+  localStorage.setItem('flashcards-direction',direction);
+  if(queue.length) render(); else updateDirectionUI();
+};
+E.unitBtn.onclick=openUnitModal;
+E.closeUnits.onclick=closeUnitModal;
+E.unitList.onclick=e=>{
+  const button=e.target.closest('[data-unit]');
+  if(button) switchUnit(button.dataset.unit);
+};
+E.unitModal.onclick=e=>{
+  if(e.target===E.unitModal) closeUnitModal();
+};
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeUnitModal();
+});
+
+loadCurrentUnit();
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
