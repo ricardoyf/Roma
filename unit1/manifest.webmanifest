@@ -1,6 +1,6 @@
 {
-  "name": "Unit 1 Flashcards",
-  "short_name": "Unit 1",
+  "name": "English Flashcards",
+  "short_name": "Flashcards",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
