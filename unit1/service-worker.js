@@ -1,5 +1,5 @@
-const CACHE='unit1-flashcards-v3';
-const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg','./fix-card-transition.js'];
+const CACHE='english-flashcards-v4';
+const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg'];
 
 self.addEventListener('install',e=>{
   self.skipWaiting();
@@ -20,18 +20,14 @@ self.addEventListener('fetch',e=>{
 
   if(isAppHtml){
     e.respondWith((async()=>{
-      let response;
       try{
-        response=await fetch(e.request,{cache:'no-store'});
+        const response=await fetch(e.request,{cache:'no-store'});
+        const cache=await caches.open(CACHE);
+        cache.put('./index.html',response.clone());
+        return response;
       }catch(_){
-        response=await caches.match('./index.html');
+        return (await caches.match('./index.html')) || Response.error();
       }
-      if(!response) return Response.error();
-      let html=await response.text();
-      if(!html.includes('fix-card-transition.js')){
-        html=html.replace('</body>','<script src="./fix-card-transition.js?v=3"></script></body>');
-      }
-      return new Response(html,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});
     })());
     return;
   }
