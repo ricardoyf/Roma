@@ -1,0 +1,12 @@
+{
+  "name": "Exam",
+  "short_name": "Exam",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff7fa",
+  "theme_color": "#e88aac",
+  "icons": [
+    {"src":"exam-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
