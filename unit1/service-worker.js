@@ -1,5 +1,5 @@
-const CACHE='english-flashcards-v4';
-const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg'];
+const CACHE='english-flashcards-pink-v5';
+const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg','./pink-theme.css'];
 
 self.addEventListener('install',e=>{
   self.skipWaiting();
@@ -20,14 +20,19 @@ self.addEventListener('fetch',e=>{
 
   if(isAppHtml){
     e.respondWith((async()=>{
+      let response;
       try{
-        const response=await fetch(e.request,{cache:'no-store'});
-        const cache=await caches.open(CACHE);
-        cache.put('./index.html',response.clone());
-        return response;
+        response=await fetch(e.request,{cache:'no-store'});
       }catch(_){
-        return (await caches.match('./index.html')) || Response.error();
+        response=await caches.match('./index.html');
       }
+      if(!response) return Response.error();
+      let html=await response.text();
+      html=html.replace('<meta name="theme-color" content="#0f766e">','<meta name="theme-color" content="#ec4899">');
+      if(!html.includes('pink-theme.css')){
+        html=html.replace('</head>','<link rel="stylesheet" href="./pink-theme.css?v=5"></head>');
+      }
+      return new Response(html,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});
     })());
     return;
   }
