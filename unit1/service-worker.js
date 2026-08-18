@@ -1,4 +1,4 @@
-const CACHE='english-flashcards-pink-v5';
+const CACHE='english-flashcards-pink-v6';
 const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg','./pink-theme.css'];
 
 self.addEventListener('install',e=>{
@@ -30,10 +30,17 @@ self.addEventListener('fetch',e=>{
       let html=await response.text();
       html=html.replace('<meta name="theme-color" content="#0f766e">','<meta name="theme-color" content="#ec4899">');
       if(!html.includes('pink-theme.css')){
-        html=html.replace('</head>','<link rel="stylesheet" href="./pink-theme.css?v=5"></head>');
+        html=html.replace('</head>','<link rel="stylesheet" href="./pink-theme.css?v=6"></head>');
+      }else{
+        html=html.replace(/pink-theme\.css(?:\?v=\d+)?/g,'pink-theme.css?v=6');
       }
       return new Response(html,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});
     })());
+    return;
+  }
+
+  if(url.pathname.endsWith('/unit1/pink-theme.css')){
+    e.respondWith(fetch(e.request,{cache:'no-store'}).catch(()=>caches.match('./pink-theme.css')));
     return;
   }
 
