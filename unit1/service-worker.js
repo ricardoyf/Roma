@@ -1,5 +1,5 @@
-const CACHE='english-flashcards-pink-v6';
-const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg','./pink-theme.css'];
+const CACHE='english-flashcards-pink-v7';
+const FILES=['./','./index.html','./manifest.webmanifest','./icon-pink-v2.svg','./pink-theme.css'];
 
 self.addEventListener('install',e=>{
   self.skipWaiting();
@@ -28,19 +28,20 @@ self.addEventListener('fetch',e=>{
       }
       if(!response) return Response.error();
       let html=await response.text();
-      html=html.replace('<meta name="theme-color" content="#0f766e">','<meta name="theme-color" content="#ec4899">');
+      html=html.replace('<meta name="theme-color" content="#0f766e">','<meta name="theme-color" content="#f43f8f">');
+      html=html.replace('<link rel="icon" href="icon.svg">','<link rel="icon" href="icon-pink-v2.svg?v=7">');
       if(!html.includes('pink-theme.css')){
-        html=html.replace('</head>','<link rel="stylesheet" href="./pink-theme.css?v=6"></head>');
+        html=html.replace('</head>','<link rel="stylesheet" href="./pink-theme.css?v=7"></head>');
       }else{
-        html=html.replace(/pink-theme\.css(?:\?v=\d+)?/g,'pink-theme.css?v=6');
+        html=html.replace(/pink-theme\.css(?:\?v=\d+)?/g,'pink-theme.css?v=7');
       }
       return new Response(html,{headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}});
     })());
     return;
   }
 
-  if(url.pathname.endsWith('/unit1/pink-theme.css')){
-    e.respondWith(fetch(e.request,{cache:'no-store'}).catch(()=>caches.match('./pink-theme.css')));
+  if(url.pathname.endsWith('/unit1/pink-theme.css') || url.pathname.endsWith('/unit1/manifest.webmanifest') || url.pathname.endsWith('/unit1/icon-pink-v2.svg')){
+    e.respondWith(fetch(e.request,{cache:'no-store'}).catch(()=>caches.match(e.request)));
     return;
   }
 
