@@ -1,1 +1,70 @@
-PLACEHOLDER
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#e88aac"><link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./exam-icon.svg"><title>Exam</title>
+<style>
+:root{--bg:#fff7fa;--panel:#fffafd;--soft:#fde8f0;--soft2:#f8d5e2;--accent:#e88aac;--accent2:#c85f89;--ink:#111;--muted:#8e5b70;--border:#efb5ca;--good:#cf6f95;--bad:#b94772}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink)}
+button,input{font:inherit}.app{max-width:720px;height:100dvh;margin:auto;padding:14px 14px max(4px,env(safe-area-inset-bottom));display:flex;flex-direction:column;overflow:hidden}
+header{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-bottom:10px}h1{margin:0;color:#9d3d63;font-size:1.4rem}.muted{color:var(--muted);font-size:.88rem}
+.controls{display:grid;grid-template-columns:1fr auto;gap:9px;margin-bottom:10px}.control{border:1px solid var(--border);border-radius:12px;background:var(--soft);padding:10px 12px;color:#7f3554;font-weight:700}
+.progresswrap{height:8px;background:var(--soft2);border-radius:999px;overflow:hidden;margin-bottom:12px}.progress{height:100%;width:0;background:var(--accent2)}
+#study{display:flex;flex-direction:column;flex:1;min-height:0}.card{flex:1;min-height:0;background:var(--panel);border:1.5px solid var(--border);border-radius:24px;padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:auto;box-shadow:0 10px 28px rgba(172,67,108,.10)}
+.badge{align-self:flex-start;background:var(--soft2);color:#7e3552;font-size:.76rem;font-weight:800;padding:6px 9px;border-radius:999px;margin-bottom:12px}.prompt{font-size:clamp(1.25rem,5vw,1.9rem);font-weight:760;line-height:1.3}.symbol{font-size:6rem;line-height:1;margin:8px 0}
+.answer{width:100%;max-width:560px;margin-top:18px}.answer input{width:100%;border:2px solid var(--border);border-radius:14px;background:#fff0f5;color:#111;padding:14px;text-align:center;font-size:1.08rem;outline:none}.answer input:focus{border-color:var(--accent2)}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;width:100%;max-width:560px}.option{border:2px solid var(--border);background:var(--soft);border-radius:14px;padding:13px;color:#111;font-weight:700}.option.selected{border-color:var(--accent2);background:var(--soft2)}
+.feedback{min-height:24px;margin-top:12px;font-weight:800}.feedback.good{color:#9b2f5b}.feedback.bad{color:#a82858}
+.action{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.action button{border:none;border-radius:13px;padding:13px;color:white;font-weight:800}.skip{background:var(--bad)}.check{background:var(--good)}
+.stats{display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap;color:var(--muted);font-size:.86rem;margin-top:8px}
+.bigbtn{width:100%;margin-top:9px;border:2px solid var(--accent);border-radius:14px;background:var(--soft);color:#7c3452;padding:14px;font-weight:850;font-size:1rem}.bottom{margin-top:auto}
+.modal{position:fixed;inset:0;background:rgba(103,39,66,.28);display:none;align-items:center;justify-content:center;padding:20px;z-index:30}.modal.show{display:flex}.panel{width:min(480px,100%);max-height:82vh;overflow:auto;background:#fff8fb;border-radius:22px;padding:20px}.panel h2{text-align:center;color:#873755}.list{display:grid;gap:9px}.choice{border:2px solid var(--border);border-radius:13px;background:var(--soft);padding:13px;color:#111;font-weight:750;text-align:left}.choice.current{background:var(--accent);color:white;border-color:var(--accent2)}.close{width:100%;margin-top:12px;border:0;border-radius:12px;background:var(--soft2);padding:12px;color:#79334f;font-weight:800}
+.done{display:none;flex:1;align-items:center;justify-content:center;text-align:center;background:var(--panel);border:1px solid var(--border);border-radius:22px;padding:24px}.done.show{display:flex}
+</style></head><body>
+<div class="app">
+<header><div><h1>Exam</h1><div class="muted" id="sub"></div></div><div class="muted" id="round"></div></header>
+<div class="controls"><button class="control" id="categoryBtn">Todo ▾</button><button class="control" id="restart">↻ Reiniciar</button></div>
+<div class="progresswrap"><div class="progress" id="progress"></div></div>
+<div id="study"><div class="card" id="card"><div class="badge" id="badge"></div><div class="symbol" id="symbol"></div><div class="prompt" id="prompt"></div><div class="answer" id="answer"></div><div class="feedback" id="feedback"></div></div>
+<div class="action"><button class="skip" id="wrong">✕ No la sé</button><button class="check" id="check">✓ Comprobar</button></div><div class="stats"><span id="pending"></span><span id="fails"></span><span id="ok"></span></div></div>
+<div class="done" id="done"><div><h2>🎉 Ronda terminada</h2><p id="doneText"></p><button class="bigbtn" id="nextRound">Empezar siguiente ronda</button></div></div>
+<div class="bottom"><button class="bigbtn" id="direction">⇄ Español → Inglés</button><button class="bigbtn" id="listen">🔊 Listen</button><button class="bigbtn" id="unit">Unit 1</button></div>
+</div>
+<div class="modal" id="catModal"><div class="panel"><h2>Elige ejercicios</h2><div class="list" id="catList"></div><button class="close" data-close>Cancelar</button></div></div>
+<div class="modal" id="unitModal"><div class="panel"><h2>Elige una unidad</h2><div class="list" id="unitList"></div><button class="close" data-close>Cancelar</button></div></div>
+<script src="./data.js"></script>
+<script>
+let unit=localStorage.getItem('exam-unit')||'unit1',dir=localStorage.getItem('exam-dir')||'es-en',cat='Todo',round=1,q=[],mastered=new Set(),fails=0,selected=null,revealed=false;
+const $=id=>document.getElementById(id);
+function cards(){return EXAM_UNITS[unit].cards}
+function groups(){return ['Todo',...new Set(cards().map(c=>c.group))]}
+function base(){return cat==='Todo'?cards():cards().filter(c=>c.group===cat)}
+function shuffle(a){a=[...a];for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function stateKey(){return 'exam-state-'+unit}
+function save(){localStorage.setItem(stateKey(),JSON.stringify({cat,round,q:q.map(c=>c.id),mastered:[...mastered],fails}));localStorage.setItem('exam-unit',unit);localStorage.setItem('exam-dir',dir)}
+function restore(){try{let s=JSON.parse(localStorage.getItem(stateKey())||'null');if(!s)return false;cat=s.cat||'Todo';round=s.round||1;q=(s.q||[]).map(id=>cards().find(c=>c.id===id)).filter(Boolean);mastered=new Set(s.mastered||[]);fails=s.fails||0;return q.length>0}catch{return false}}
+function start(next=false){if(next)round++;q=shuffle(base());mastered=new Set();fails=0;showStudy();render()}
+function showStudy(){$('study').style.display='flex';$('done').classList.remove('show')}
+function normalize(s){return(s||'').toLowerCase().trim().replace(/[’']/g,"'").replace(/\s+/g,' ')}
+function render(){if(!q.length)return finish();let c=q[0];selected=null;revealed=false;$('feedback').textContent='';$('feedback').className='feedback';$('symbol').textContent=c.type==='picture'?c.symbol:'';$('symbol').style.display=c.type==='picture'?'block':'none';$('badge').textContent=c.group;
+ let p=''; if(c.type==='vocab')p=dir==='es-en'?c.es:c.en; else p=c.prompt; $('prompt').textContent=p;
+ let a=$('answer');a.innerHTML=''; if(c.type==='mcq'){let d=document.createElement('div');d.className='options';c.options.forEach(o=>{let b=document.createElement('button');b.className='option';b.textContent=o;b.onclick=()=>{[...d.children].forEach(x=>x.classList.remove('selected'));b.classList.add('selected');selected=o};d.appendChild(b)});a.appendChild(d)}else{let i=document.createElement('input');i.id='input';i.placeholder='Escribe tu respuesta';i.autocomplete='off';i.autocapitalize='none';i.spellcheck=false;i.onkeydown=e=>{if(e.key==='Enter')check()};a.appendChild(i);setTimeout(()=>i.focus(),50)}
+ $('check').textContent='✓ Comprobar';$('wrong').disabled=false;update();save()}
+function expected(c){return c.type==='vocab'?(dir==='es-en'?c.en:c.es):c.answer}
+function isCorrect(c,val){let n=normalize(val),vals=expected(c).split(/\s*\/\s*/).map(normalize);return vals.includes(n)}
+function check(){let c=q[0];if(revealed){render();return}let val=c.type==='mcq'?selected:($('input')?.value||'');if(!val)return;
+ if(isCorrect(c,val)){mastered.add(c.id);$('feedback').textContent='✓ Correcto';$('feedback').className='feedback good';q.shift();setTimeout(render,350)}
+ else{fails++;$('feedback').textContent='✕ Respuesta: '+expected(c);$('feedback').className='feedback bad';let x=q.shift(),gap=Math.random()<.5?4:5;q.splice(Math.min(gap,q.length),0,x);revealed=true;$('check').textContent='Siguiente →';$('wrong').disabled=true;update();save()}}
+function wrong(){if(revealed){render();return}let c=q.shift();fails++;let gap=Math.random()<.5?4:5;q.splice(Math.min(gap,q.length),0,c);$('feedback').textContent='Respuesta: '+expected(c);$('feedback').className='feedback bad';revealed=true;$('check').textContent='Siguiente →';$('wrong').disabled=true;update();save()}
+function update(){let total=base().length;$('pending').textContent='Pendientes: '+q.length;$('fails').textContent='Fallos: '+fails;$('ok').textContent='Dominadas: '+mastered.size+' / '+total;$('round').textContent='Ronda '+round;$('progress').style.width=(total?mastered.size/total*100:0)+'%';$('sub').textContent=EXAM_UNITS[unit].label+' · '+(dir==='es-en'?'Español → Inglés':'Inglés → Español');$('direction').textContent='⇄ '+(dir==='es-en'?'Español → Inglés':'Inglés → Español');$('unit').textContent=EXAM_UNITS[unit].label;$('categoryBtn').textContent=cat+' ▾'}
+function finish(){$('study').style.display='none';$('done').classList.add('show');$('doneText').textContent=`Has completado ${base().length} ejercicios. Fallos: ${fails}.`;localStorage.removeItem(stateKey());update()}
+function modal(id,on){$(id).classList.toggle('show',on)}
+function buildCats(){$('catList').innerHTML='';groups().forEach(g=>{let b=document.createElement('button');b.className='choice'+(g===cat?' current':'');b.textContent=g;b.onclick=()=>{cat=g;round=1;modal('catModal',false);start(false)};$('catList').appendChild(b)})}
+function buildUnits(){$('unitList').innerHTML='';Object.entries(EXAM_UNITS).forEach(([k,u])=>{let b=document.createElement('button');b.className='choice'+(k===unit?' current':'');b.textContent=u.label;b.onclick=()=>{save();unit=k;cat='Todo';round=1;modal('unitModal',false);if(!restore())start(false);else{showStudy();render()}};$('unitList').appendChild(b)})}
+function visibleText(){let c=q[0];if(!c)return'';let text=$('prompt').textContent;if(c.type==='mcq')text+=' '+c.options.join('. ');return text}
+function listen(){if(!('speechSynthesis'in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(visibleText());u.lang='en-US';u.rate=1.35;u.pitch=1;let vs=speechSynthesis.getVoices(),v=vs.find(x=>x.lang==='en-US'&&/google|samantha|zira|us english/i.test(x.name))||vs.find(x=>x.lang==='en-US');if(v)u.voice=v;speechSynthesis.speak(u)}
+$('check').onclick=check;$('wrong').onclick=wrong;$('restart').onclick=()=>start(false);$('nextRound').onclick=()=>start(true);$('categoryBtn').onclick=()=>{buildCats();modal('catModal',true)};$('unit').onclick=()=>{buildUnits();modal('unitModal',true)};$('direction').onclick=()=>{dir=dir==='es-en'?'en-es':'es-en';localStorage.setItem('exam-dir',dir);render()};$('listen').onclick=listen;document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{modal('catModal',false);modal('unitModal',false)});
+if(!restore())start(false);else{showStudy();render()}
+if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+</script></body></html>
