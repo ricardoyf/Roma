@@ -1,16 +1,16 @@
 :root{
-  --bg:#ffd6e8;
-  --panel:#ffc1dc;
+  --bg:#ffeaf2;
+  --panel:#fff7fb;
   --ink:#111111;
-  --muted:#9d174d;
-  --accent:#ec4899;
-  --good:#f472b6;
-  --bad:#be185d;
-  --border:#f472b6;
+  --muted:#9d4167;
+  --accent:#e85d9e;
+  --good:#ee8fba;
+  --bad:#c74378;
+  --border:#f1b5cf;
 }
 
-html,body{height:100%;background:#ffd6e8}
-body{color:#9d174d}
+html,body{height:100%;background:#ffeaf2}
+body{color:#8d345c}
 .app{
   height:100dvh;
   min-height:100dvh;
@@ -19,55 +19,40 @@ body{color:#9d174d}
   padding-bottom:max(2px,env(safe-area-inset-bottom));
   overflow:hidden;
 }
-header h1{color:#9d174d}
-.muted,.lang,.hint,.stats{color:#9d174d}
-.controls select,.controls button{background:#ffb6d3;color:#831843;border-color:#ec4899}
-.progresswrap{background:#f9a8d4}
-.progress{background:#db2777}
+header h1{color:#8d345c}
+.muted,.lang,.hint,.stats{color:#9d4167}
+.controls button,.category-button{background:#ffddea;color:#7c294f;border-color:#e85d9e}
+.progresswrap{background:#f7cddd}
+.progress{background:#d94f8b}
 
-#study{
-  display:flex;
-  flex-direction:column;
-  flex:1;
-  min-height:0;
-}
-.flashcard{
-  flex:1;
-  height:auto;
-  min-height:0;
-}
-.face{
-  background:#ffc1dc;
-  border-color:#ec4899;
-  box-shadow:0 10px 28px rgba(190,24,93,.18);
-}
-.back{background:linear-gradient(145deg,#f9a8d4,#ffd6e8)}
+.native-category-hidden{display:none!important}
+.category-button{width:100%;text-align:left;font:inherit;border:1px solid #e85d9e;border-radius:12px;padding:11px 12px;cursor:pointer}
+.category-modal{position:fixed;inset:0;z-index:70;background:rgba(124,41,79,.28);display:none;align-items:center;justify-content:center;padding:20px}
+.category-modal.show{display:flex}
+.category-panel{width:min(500px,100%);max-height:82vh;display:flex;flex-direction:column;background:#fff0f6;border:1px solid #f1b5cf;border-radius:22px;padding:18px;box-shadow:0 18px 50px rgba(124,41,79,.22)}
+.category-title{text-align:center;font-weight:800;font-size:1.15rem;color:#7c294f;margin-bottom:12px}
+.category-options{display:grid;gap:8px;overflow:auto;padding:2px}
+.category-option{width:100%;text-align:left;background:#ffddea;color:#7c294f;border:1px solid #e85d9e;border-radius:12px;padding:12px;font:inherit;font-weight:700}
+.category-option.current{background:#e85d9e;color:#fff}
+.category-close{width:100%;margin-top:12px;background:#f8c9dc;color:#7c294f;border-color:#e85d9e}
+
+#study{display:flex;flex-direction:column;flex:1;min-height:0}
+.flashcard{flex:1;height:auto;min-height:0}
+.face{background:#fff7fb;border-color:#f1b5cf;box-shadow:0 10px 28px rgba(173,57,108,.13)}
+.back{background:linear-gradient(145deg,#ffe0ed,#fff7fb)}
 .word{color:#111111}
-.badge{background:#f9a8d4;color:#831843}
+.badge{background:#f7cddd;color:#7c294f}
+#wrong{background:#c74378}
+#right{background:#ee8fba}
+.rating button{color:#fff}
+.mode-switch{background:#ffddea;color:#7c294f;border-color:#d94f8b}
+.overlay{background:#fff7fb;border-color:#f1b5cf;box-shadow:0 10px 28px rgba(173,57,108,.13);color:#7c294f}
+.overlay button{background:#d94f8b;border-color:#d94f8b;color:#fff}
+.unit-modal{background:rgba(124,41,79,.28)}
+.unit-panel{background:#fff0f6;color:#7c294f}
+.unit-panel p{color:#9d4167}
+.unit-choice{background:#ffddea;color:#7c294f;border-color:#d94f8b}
+.unit-choice.current{background:#d94f8b;color:#fff}
+.close-units{background:#f8c9dc;color:#7c294f;border-color:#e85d9e}
 
-#wrong{background:#be185d}
-#right{background:#f472b6}
-.rating button{color:#ffffff}
-
-.mode-switch{
-  background:#ffb6d3;
-  color:#831843;
-  border-color:#db2777;
-}
-.overlay{
-  background:#ffc1dc;
-  border-color:#ec4899;
-  box-shadow:0 10px 28px rgba(190,24,93,.18);
-  color:#831843;
-}
-.overlay button{background:#db2777;border-color:#db2777;color:#ffffff}
-.unit-modal{background:rgba(131,24,67,.32)}
-.unit-panel{background:#ffc1dc;color:#831843}
-.unit-panel p{color:#9d174d}
-.unit-choice{background:#ffb6d3;color:#831843;border-color:#db2777}
-.unit-choice.current{background:#db2777;color:#ffffff}
-.close-units{background:#f9a8d4;color:#831843;border-color:#ec4899}
-
-@media(max-height:720px){
-  .flashcard{height:auto;min-height:0}
-}
+@media(max-height:720px){.flashcard{height:auto;min-height:0}}
